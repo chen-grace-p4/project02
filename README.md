@@ -1,10 +1,14 @@
-# Systems Final Project
+# Systems Final Project - Disaccord
 **Members**: Grace Chen, Kyle Li <br>
 **Period**: 4 <br>
-**Project Statement**: Automated College Application Reviewer <br>
+**Project Statement**: Basic Chatting Server Similar To Discord/RocketChat <br>
 ## Description of User Interface:
+gtk c
 ## Description of Technical Design:
-* Sockets/Pipes - connecting students(clients) to a college portal (server)
-* Working with files/Finding information about files - storing student information
-* Processes - possibly testing a student's CS knowledge if they apply with CS major
+* Sockets - connecting users(clients) to a server where they send messages to each other
+* Working with files - send files or images over the server so that other clients can access/see them
+* Finding information about files - display information about files such as size and file type
+* Signals - shortcuts to copy and paste, to bold or italicize words 
+* Layouting the GUI - kyle 
+* <br>
 **Timeline:** <br>
