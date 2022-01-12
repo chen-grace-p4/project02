@@ -1,4 +1,4 @@
-# Systems Final Project - Disaccord
+# Systems Final Project - "Disaccord"
 **Members**: Grace Chen, Kyle Li <br>
 **Period**: 4 <br>
 **Project Statement**: We will create a very basic messaging server somewhat inspired by Discord or Rocketchat. <br>
