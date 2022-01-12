@@ -1,7 +1,7 @@
 # Systems Final Project - "Disaccord"
 **Members**: Grace Chen, Kyle Li <br>
 **Period**: 4 <br>
-**Project Statement**: We will create a very basic messaging server somewhat inspired by Discord or Rocketchat. <br>
+**Project Statement**: We will create a very basic messaging server somewhat inspired by Discord or Slack. <br>
 ## Description of User Interface:
 At the most basic level, users will interact with the server using the terminal. A server will start up. Then, users connected to it will be prompted for their username and given instructions. Users will then be able to send things based on commands they put. "message ..." will send a normal text message and have it displayed on the server for all uesrs to see. "upload ....txt" will upload the designated file or image to the server. 
 
@@ -15,7 +15,7 @@ Once the most basic interface is made, there will be a GUI display for the serve
   * "subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
 
 * Processes? (Grace)
-  * maybe use fork to somehow create a subserver which acts like "channels" in Discord/Rocketchat
+  * maybe use fork to somehow create a subserver which acts like "channels" in Discord/Slack
    * users will be able to join channels with a command like "join channel=something"
 
 * Working with files (Kyle)
