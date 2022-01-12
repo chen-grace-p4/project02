@@ -30,7 +30,7 @@ Once the most basic interface is made, there will be a GUI display for the serve
   * shortcuts to copy and paste, to bold or italicize words 
 
 * Layouting the GUI (Kyle)
-  *  something
+  *  use gtk in c
 
 ## Timeline:
 * 1/13 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed both on their end and on the server.
