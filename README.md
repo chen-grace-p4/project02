@@ -12,14 +12,27 @@ Once the most basic interface is made, there will be a GUI display for the serve
   * connecting users(clients) to a server where they send messages to each other
   * server returns a "new message" to every client everytime a client sends something to the server so that the client end can see all the messages
   * not sure if server should display all the messages on the server itself
+  * "subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
+
+* Processes (Grace)
+  * maybe use fork to somehow create a subserver which acts like "channels" in Discord/Rocketchat
+   * users will be able to join channels with a command like "join channel=something"
+
 * Working with files (Kyle)
   * send files or images over the server so that other clients can access/see them
+
 * Finding information about files (Kyle)
   * display information about files such as size, file type, and a preview of files
+  * having a preview of a file will require the use of READ
+  * at some point there could be a way to change a file using write by a client and send the changed file back over the server 
+
 * Signals (Grace)
   * shortcuts to copy and paste, to bold or italicize words 
-* Layouting the GUI (Grace + Kyle)
+
+* Layouting the GUI (Kyle)
   *  something
 
 ## Timeline:
-* 1/14 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed on the server.
+* 1/13 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed both on their end and on the server.
+* 1/14 - Make it so user commands are recognized. For example, "message something" will send a regular message. 
+* 1/15 - See if creating a subserver is possible so that users can join. Figure out if this can be accomplished with either making an entirely new server or somehow connecting servers with one another so that theres a "subserver". Add a user command of "create channel" to create a subserver
