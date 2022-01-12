@@ -3,7 +3,7 @@
 **Period**: 4 <br>
 **Project Statement**: Basic Chatting Server Similar To Discord/RocketChat <br>
 ## Description of User Interface:
-At the most basic point, users will interact with the server using the termainal. A server will start up. Then, users connected to it will be prompted for their username and given instructions. Users will then be able to send things based on commands they put. "message ..." will send a normal text message and have it displayed on the server for all uesrs to see. "upload ....txt" will upload the designated file or image to the server. 
+At the most basic point, users will interact with the server using the terminal. A server will start up. Then, users connected to it will be prompted for their username and given instructions. Users will then be able to send things based on commands they put. "message ..." will send a normal text message and have it displayed on the server for all uesrs to see. "upload ....txt" will upload the designated file or image to the server. 
 
 Once the most basic interface is made, there will be a GUI display for the server instead. At this point, the user wil be able to keyboard shortcuts such as Ctrl + B to bold or Ctrl + I to italicize words. If we get to a GUI for the users too, we'll try to make it so Ctrl+C for copy and Ctrl + V for paste works as well, and make the place to enter messages more streamlined (allow the use of the cursor to move the point).
 
