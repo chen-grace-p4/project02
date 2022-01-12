@@ -20,6 +20,6 @@ Once the most basic interface is made, there will be a GUI display for the serve
   * shortcuts to copy and paste, to bold or italicize words 
 * Layouting the GUI (Grace + Kyle)
   *  something
-<br>
+
 ## Timeline:
 * 1/14 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed on the server.
