@@ -1,29 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <string.h>
 #include <errno.h>
-#include <time.h>
-#include <sys/socket.h>
-#include <netdb.h>
+#include <ifaddrs.h>
 
 #ifndef NETWORKING_H
 #define NETWORKING_H
-#define ACK "HOLA"
-#define WKP "mario"
 
-#define HANDSHAKE_BUFFER_SIZE 10
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 256
+#define PORT "9002"
+#define TEST_IP "127.0.0.1"
 
+#define MAX_CLIENTS 10
+#define LISTEN 0
 
-//for forking server
+void error_check( int i, char *s );
+void error_check_sock( int i, char *s, int sd );
+
 int server_setup();
 int server_connect(int sd);
 
+int client_setup(char * server);
 
-int client_handshake();
+//int udp_server_setup();
+//struct addrinfo *  udp_client_setup(char * server, int *sock);
 
 #endif

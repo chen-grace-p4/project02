@@ -1,4 +1,3 @@
-
 #include "networking.h"
 //static void sighandler(int signo);
 
@@ -7,7 +6,7 @@ int main() {
 
   int server;
   char buffer[BUFFER_SIZE];
-  server = client_handshake();
+  server = client_setup(TEST_IP);
 
   while (1) {
     printf("Input: ");
