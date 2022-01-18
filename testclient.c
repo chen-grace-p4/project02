@@ -3,7 +3,7 @@
 
 int main() {
   //signal(SIGINT, sighandler);
-
+  //USE SELECT beej.us/guide/bgnet/html/#select
   int server;
   char buffer[BUFFER_SIZE];
   server = client_setup(TEST_IP);
@@ -30,8 +30,18 @@ int main() {
   		//replace newline with terminating null
   		*strchr(buffer, '\n') = 0;
 
-  		//using sizeof is better because strlen could easily change
-  		write(server, buffer, sizeof(buffer));
+      char temp[BUFFER_SIZE];
+      strcpy(temp, buffer);
+
+      //separate buffer into array and check first word for command
+      char * first = strtok(buffer, " ");
+      if (strcasecmp(first, "update") == 0) {
+        printf("updating to most recent messages\n");
+      } else {
+        //printf("sending: -%s-\n", buffer);
+    		//write(server, buffer, sizeof(buffer));
+        write(server, temp, sizeof(temp));
+      }
     }
 		// read(server, buffer, sizeof(buffer));
     //
