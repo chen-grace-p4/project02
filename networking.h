@@ -10,6 +10,8 @@
 #include <errno.h>
 #include <ifaddrs.h>
 
+#include <sys/ioctl.h>
+
 #ifndef NETWORKING_H
 #define NETWORKING_H
 
