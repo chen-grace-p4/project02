@@ -22,7 +22,6 @@ int main() {
 
 
   while (1) {
-
     //must reset read_fds after each time you process select
     read_fds = clients;
 
@@ -41,7 +40,7 @@ int main() {
 
     //all we know is a file descriptor is ready, we don't know which one
     //loop through read_fds for any available socket
-    for (fd=0; fd<=maxfd; fd++) {
+    for (fd = 0; fd <= maxfd; fd++) {
 
       //will return true if the provided file descriptor is in read_fds
       if (FD_ISSET(fd, &read_fds)) {
@@ -52,20 +51,27 @@ int main() {
           FD_SET(client, &clients);
 
           //make sure to update maxfd
-          if (client > maxfd)
-            maxfd = client;
+          if (client > maxfd) maxfd = client;
         }//new connections
 
         //existing client
         else {
           //if the socket got closed, select will trigger
-          //if tead returns 0 bytes, then we should close the
+          //if read returns 0 bytes, then we should close the
           //connection, otherwise process it.
           if (read(fd, buffer, sizeof(buffer)) ) {
-            buffer[strlen(buffer)] = '\0';
-            strcat(buffer, "manipulated");
+            // buffer[strlen(buffer)] = '\0';
+            // strcat(buffer, "manipulated");
+            for(i = 0; i <= maxfd; i++) {
+              //sending message to everyone except listen and ourself
+              if (FD_ISSET(i, &clients)) {
+                if (i != listen_socket && i != fd) {
+                  write(i, buffer, sizeof(buffer));
+                }
+              }
+            }
 
-            write(fd, buffer, sizeof(buffer));
+            //write(fd, buffer, sizeof(buffer));
           }//data to be read
           else {
             //remove this descriptor from the full set
