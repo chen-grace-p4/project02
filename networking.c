@@ -97,20 +97,23 @@ int client_setup(char * server) {
   //run getaddrinfo
   /* hints->ai_flags not needed because the client
      specifies the desired address. */
-  struct addrinfo * hints, * results;
+  struct addrinfo * hints, * results, *p;
   hints = (struct addrinfo *)calloc(1, sizeof(struct addrinfo));
   hints->ai_family = AF_INET;  //IPv4
   hints->ai_socktype = SOCK_STREAM;  //TCP socket
   getaddrinfo(server, PORT, hints, &results);
 
-  //create the socket
-  sd = socket( results->ai_family, results->ai_socktype, results->ai_protocol );
-  error_check( sd, "client socket" );
+  //connect to the first results we can
+  for (p = results; p != NULL; p = p->ai_next) {
+    //create the socket
+    sd = socket( p->ai_family, p->ai_socktype, p->ai_protocol );
+    error_check( sd, "client socket" );
 
-  //connect to the server
-  //connect will bind the socket for us
-  i = connect( sd, results->ai_addr, results->ai_addrlen );
-  error_check( i, "client connect" );
+    //connect to the server
+    //connect will bind the socket for us
+    i = connect( sd, p->ai_addr, p->ai_addrlen );
+    error_check( i, "client connect" );
+  }
 
   free(hints);
   freeaddrinfo(results);
