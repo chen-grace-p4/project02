@@ -21,6 +21,10 @@ int main() {
     //server socket is empty so you can send something
     else {
       printf("Input: ");
+      //IS THERE A WAY TO CANCEL FGETS SO THAT IT DOESN'T STALL
+      //RECEIVING MESSAGES?
+      //PROBLEM: CLIENT ONLY SEES RECIEVED MESSAGES IF THEY SEND THEIR OWN MESSAGE
+      //RIGHT BEFORE IT
   		fgets(buffer, sizeof(buffer), stdin);
 
   		//replace newline with terminating null

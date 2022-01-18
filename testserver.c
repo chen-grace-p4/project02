@@ -68,6 +68,11 @@ int main() {
                 if (i != listen_socket && i != fd) {
                   write(i, buffer, sizeof(buffer));
                 }
+
+                //HOW TO MAKE OWN MESSAGE BE PART OF IT?
+                // if (i != listen_socket) {
+                //   write(i, buffer, sizeof(buffer));
+                // }
               }
             }
 
