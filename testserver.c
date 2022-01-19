@@ -31,8 +31,8 @@ int main() {
       select  will be looking at
       This will block until at least one of the descriptors in read_fds
       is ready.
-      Returns the number of fds that area ready.
-      read_fds will contain only rthe descriptors that are ready.
+      Returns the number of fds that are ready.
+      read_fds will contain only the descriptors that are ready.
     */
     int i = select(maxfd + 1, &read_fds, NULL, NULL, NULL);
     error_check_sock(i, "select", listen_socket);
@@ -54,7 +54,7 @@ int main() {
           if (client > maxfd) maxfd = client;
         }//new connections
 
-        //existing client
+        //listen socket not ready so existing client
         else {
           //if the socket got closed, select will trigger
           //if read returns 0 bytes, then we should close the

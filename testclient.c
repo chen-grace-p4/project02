@@ -4,10 +4,15 @@
 int main() {
   //signal(SIGINT, sighandler);
   //USE SELECT beej.us/guide/bgnet/html/#select
+  //FILE DESCRIPTOR OF STDIN IS 0 and server is file descriptor of socket
   int server;
   char buffer[BUFFER_SIZE];
   server = client_setup(TEST_IP);
-
+  /*
+  char username[10];
+  printf("Please enter a username (10 characters max, might be same username as another user):");
+  fgets(username, sizeof(username), stdin);
+  */
   while (1) {
     int count;
     ioctl(server, FIONREAD, &count);
@@ -32,6 +37,9 @@ int main() {
 
       char temp[BUFFER_SIZE];
       strcpy(temp, buffer);
+
+      //strcpy(temp, strcat(username, ": "));
+      //strcpy(temp, strcat(temp, buffer));
 
       //separate buffer into array and check first word for command
       char * first = strtok(buffer, " ");
