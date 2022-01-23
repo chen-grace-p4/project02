@@ -14,10 +14,6 @@ Once the most basic interface is made, there will be a GUI display for the serve
   * not sure if server should display all the messages on the server itself
   * "subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
 
-* Processes? (Grace)
-  * maybe use fork to somehow create a subserver which acts like "channels" in Discord/Slack
-   * users will be able to join channels with a command like "join channel=something"
-
 * Working with files (Kyle)
   * send files or images over the server so that other clients can access/see them
 
