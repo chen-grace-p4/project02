@@ -56,6 +56,7 @@ int main() {
 
         //listen socket not ready so existing client
         else {
+           printf("ready fd not listen socket: %d\n", fd);
           //if the socket got closed, select will trigger
           //if read returns 0 bytes, then we should close the
           //connection, otherwise process it.
@@ -66,7 +67,16 @@ int main() {
               //sending message to everyone except listen and ourself
               if (FD_ISSET(i, &clients)) {
                 if (i != listen_socket && i != fd) {
-                  write(i, buffer, sizeof(buffer));
+                   int id = fd-3;
+                   char temp[BUFFER_SIZE];
+                   sprintf(temp, "||user%d||: -", id);
+                   //printf("%s", userid);
+
+                   strcat(temp, buffer);
+                   //printf("%s\n", temp);
+                   //*strchr(temp, '\n') = 0;
+                   //write(i, buffer, sizeof(buffer));
+                   write(i, temp, sizeof(temp));
                 }
 
                 //HOW TO MAKE OWN MESSAGE BE PART OF IT?

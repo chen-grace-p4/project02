@@ -19,6 +19,8 @@
 #define PORT "9002"
 #define TEST_IP "127.0.0.1"
 
+#define STDIN 0
+
 #define MAX_CLIENTS 10
 #define LISTEN 0
 

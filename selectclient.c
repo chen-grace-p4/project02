@@ -6,9 +6,6 @@ int main() {
    fd_set read_fds;
    fd_set full_fds;
 
-   tv.tv_sec = 2;
-   tv.tv_usec = 500000;
-
    FD_ZERO(&read_fds);
    FD_SET(STDIN, &full_fds);
 
@@ -28,7 +25,8 @@ int main() {
 
       //something is entered on stdin
       if (FD_ISSET(STDIN, &read_fds)) {
-         read(STDIN, buffer, sizeof(buffer));
+         //read(STDIN, buffer, sizeof(buffer));
+         fgets(buffer, sizeof(buffer), stdin);
          //printf("your input: %s", buffer);
          *strchr(buffer, '\n') = 0;
 
@@ -43,7 +41,8 @@ int main() {
          if (strcasecmp(first, "update") == 0) {
            printf("updating to most recent messages\n");
          } else {
-           printf("\033[A\rsending: -%s-\n", temp);
+           //printf("\033[A\r||sent||: -%s-\n", temp);
+           printf("\033[A\r||me||: -%s-\n", temp);
            write(server, temp, sizeof(temp));
          }
       }
@@ -56,7 +55,8 @@ int main() {
          //means server socket has something to send
          if (count != 0) {
             read(server, buffer, sizeof(buffer));
-       		printf("received: -%s-\n", buffer);
+       		//printf("||received||: -%s-\n", buffer);
+            printf("%s-\n", buffer);
          }
       }
    }
