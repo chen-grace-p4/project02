@@ -72,19 +72,20 @@ int main() {
           //if read returns 0 bytes, then we should close the
           //connection, otherwise process it.
           if (read(fd, buffer, sizeof(buffer)) ) {
+             int id = fd-3;
+             char temp[BUFFER_SIZE];
+             sprintf(temp, "||user%d||: '", id);
+             //printf("%s", userid);
+
+             strcat(temp, buffer);
+             printf("%s\n", temp);
+
             for(i = 0; i <= maxfd; i++) {
-               //MIGHT NEED TO CHECK BUFFER AND DO SOMETHING ELSE OTHER THAN WRITE
-               //IF WE'RE SENDING A FILE
               //sending message to everyone except listen and ourself
               if (FD_ISSET(i, &clients)) {
                 if (i != listen_socket && i != fd) {
-                   int id = fd-3;
-                   char temp[BUFFER_SIZE];
-                   sprintf(temp, "||user%d||: '", id);
-                   //printf("%s", userid);
-
-                   strcat(temp, buffer);
-                   //printf("%s\n", temp);
+                   //MIGHT NEED TO CHECK BUFFER AND DO SOMETHING ELSE OTHER THAN WRITE
+                  //IF WE'RE SENDING A FILE
                    //*strchr(temp, '\n') = 0;
                    //write(i, buffer, sizeof(buffer));
                    write(i, temp, sizeof(temp));
