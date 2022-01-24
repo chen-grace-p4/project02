@@ -2,6 +2,17 @@
 #include "networking.h"
 
 int main() {
+   printf("INSTRUCTIONS FOR CLIENTS:\n");
+   printf("\t - all clients should be connected at once in the beginning to see all messages.\n");
+   printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
+   printf("\n");
+   printf("\t - begin inputs with -m or -message to send a normal text message.\n");
+   printf("\t - begin inputs with -f or -file to send a file.\n");
+   printf("\n");
+   printf("since we can't exactly bold or italicize text on terminal without another library...\n");
+   printf("\t - ctrl+b will surround text with ** for bolding text.\n");
+   printf("\t - ctrl+i will surround text with * for italics.\n");
+
   int fd, listen_socket, maxfd, client;
   //this is the fd_set that will be modified by select
   fd_set read_fds;

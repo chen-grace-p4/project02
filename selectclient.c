@@ -15,6 +15,7 @@ int main() {
 
    while (1) {
       read_fds = full_fds;
+      //1.5 seconds
       tv.tv_sec = 1;
       tv.tv_usec = 500000;
       //printf("Input: ");
