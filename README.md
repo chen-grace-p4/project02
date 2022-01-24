@@ -19,6 +19,7 @@ Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i t
   * server returns a "new message" to every client everytime a client sends something to the server so that the client end can see all the messages
   * (OMITTED)"subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
   * (NEW) server uses select to navigate through multiple clients and clients use select to navigate between STDIN and new messages from the server (other clients)
+    * (NEW) <sys/ioctl.h> is included so ioctl is used to detect whether or not the socket has something new to read (a new message)
   * (NEW) clients are identified by usernames based on their file descriptor number
 
 * Working with files (Kyle)
