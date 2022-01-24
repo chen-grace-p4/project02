@@ -2,16 +2,19 @@
 **Members**: Grace Chen, Kyle Li <br>
 **Period**: 4 <br>
 **Project Statement**: We will create a very basic messaging server somewhat inspired by Discord or Slack. <br>
-## Description of User Interface:
+## Broad Description of Project
+
+## Description of User Interface (How to use our project):
 At the most basic level, users will interact with the server using the terminal. A server will start up. Then, users connected to it will be prompted for their username and given instructions. Users will then be able to send things based on commands they put. "message ..." will send a normal text message and have it displayed on the server for all uesrs to see. "upload ....txt" will upload the designated file or image to the server. 
 
 Once the most basic interface is made, there will be a GUI display for the server instead. At this point, the user wil be able to keyboard shortcuts such as Ctrl + B to bold or Ctrl + I to italicize words. If we get to a GUI for the users too, we'll try to make it so Ctrl+C for copy and Ctrl + V for paste works as well, and make the place to enter messages more streamlined (allow the use of the cursor to move the point).
 
-## Description of Initial Technical Design:
+## Description of Technical Design with omits/new parts added:
 * Sockets (Grace)
   * connecting users(clients) to a server where they send messages to each other
   * server returns a "new message" to every client everytime a client sends something to the server so that the client end can see all the messages
-  * "subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
+  * (OMITTED)"subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
+  * (NEW) server uses select to navigate through multiple clients and clients use select to navigate between STDIN and new messages from the server (other clients)
 
 * Working with files (Kyle)
   * send files or images over the server so that other clients can access/see them
@@ -22,17 +25,18 @@ Once the most basic interface is made, there will be a GUI display for the serve
   * at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server 
 
 * Signals (Grace)
-  * shortcuts to copy and paste, to bold or italicize words 
-  * ex. ctrl b to bold, ctrl i to italicize, ctrl c and ctrl v to copy and paste
+  * shortcuts to bold or italicize words 
+  * ex. ctrl b to bold, ctrl i to italicize, (OMITTED ->) ctrl c and ctrl v to copy and paste
+  * (NEW) bold or italicizing words will be indicated by ** or * around text
 
-* Layouting the GUI (Kyle)
+* (OMITTED) Layouting the GUI (Kyle)
   *  use gtk in c
   *  still need to research
 
 ## Some known bugs or weird things:
 * When a client recieves a message from another client while they're still typing a message, it will look a little wonky on the terminal but what they have already typed before receiving a new message is included in the next message they send. 
 
-## Features we weren't able to implement:
+## Features we weren't able to implement (reiterated from above):
 * subservers or channels
 * the gtk gui 
 * without the gui, the bold and italicize won't appear directly on the text but will still appear as asterisks around the text
