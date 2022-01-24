@@ -25,3 +25,4 @@ clean:
 	rm *.o
 	rm server
 	rm client
+	rm chat.log

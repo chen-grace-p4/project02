@@ -1,7 +1,17 @@
 
 #include "networking.h"
 
+unsigned long file_size(char *file) {
+  struct stat sb;
+  stat(file, &sb);
+  return sb.st_size;
+}
+
 int main() {
+   // creates file "chat.log"
+   int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+
+
    printf("INSTRUCTIONS FOR CLIENTS:\n");
    printf("\t - all clients should be connected at once in the beginning to see all messages.\n");
    printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
@@ -67,7 +77,7 @@ int main() {
 
         //listen socket not ready so existing client
         else {
-           //printf("ready fd: %d\n", fd);
+          //printf("ready fd: %d\n", fd);
           //if the socket got closed, select will trigger
           //if read returns 0 bytes, then we should close the
           //connection, otherwise process it.
@@ -76,6 +86,53 @@ int main() {
              char temp[BUFFER_SIZE];
              sprintf(temp, "||user%d||: '", id);
              //printf("%s", userid);
+
+             // creates file "chat.log"
+             // int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+
+             // opens file "chat.log" for appending
+             int open_call = open(CHATLOG, O_WRONLY | O_TRUNC);
+
+             // struct
+             struct log store[1];
+
+             // userid
+             store[0].userid = id;
+
+             // time
+             time_t now;
+             struct tm ts;
+             time(&now);
+             ts = *localtime(&now);
+             store[0].time = ts;
+
+             // Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
+             // char readable[80];
+             // strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
+             // printf("%s\n", readable);
+
+             // message
+             strcpy(store[0].message, buffer);
+
+             // write to "chat.log"
+             write(create_call, store, sizeof(store));
+             printf("wrote %lu bytes to %s\n", file_size(CHATLOG), CHATLOG);
+
+             close(open_call);
+
+
+
+             // printf("wrote %lu bytes to %s\n", file_size(DATAFILE), DATAFILE);
+
+
+
+
+
+
+
+
+
+
 
              strcat(temp, buffer);
              printf("%s\n", temp);
@@ -103,5 +160,7 @@ int main() {
     }//loop through sockets
   }//forever
   close(listen_socket);
+  close(create_call);
+
   return 0;
 }
