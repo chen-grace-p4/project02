@@ -10,8 +10,10 @@ A terminal-based messaging server loosely inspired by Discord. Clients connect t
 First, start up the server after running make by running ./server. <br>
 On other terminal windows, run ./client on each window to connect multiple clients to the server. <br> 
 On the client-end, they can use the flag -m or -message (ex. "-m hi hows your day" to send hi hows your day) to send a regular text message. <br>
-They can also use the flag -f or -file (ex. "-f text.txt" to send text.txt) to send files to the other clients. <br>
-Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i to italicize their words (* around their words). 
+Clients can also open a file called history.csv to see past logs of messages. <br>
+<br>
+(omit)They can also use the flag -f or -file (ex. "-f text.txt" to send text.txt) to send files to the other clients. <br>
+(omit) Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i to italicize their words (* around their words). 
 
 ## Description of Technical Design with omits/new parts added:
 * Sockets (Grace)
