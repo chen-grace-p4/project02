@@ -73,6 +73,8 @@ int main() {
           //connection, otherwise process it.
           if (read(fd, buffer, sizeof(buffer)) ) {
             for(i = 0; i <= maxfd; i++) {
+               //MIGHT NEED TO CHECK BUFFER AND DO SOMETHING ELSE OTHER THAN WRITE
+               //IF WE'RE SENDING A FILE
               //sending message to everyone except listen and ourself
               if (FD_ISSET(i, &clients)) {
                 if (i != listen_socket && i != fd) {

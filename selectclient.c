@@ -51,7 +51,8 @@ int main() {
             write(server, temp2, sizeof(temp2));
          }
          else if (strcasecmp(first, "-file") == 0 ||strcasecmp(first, "-f") == 0  ) {
-
+            //MAKE IT SO THAT THE CLIENT WRITES A STRING OF PREVIEW OF FILE INFORMATION TO OTHER CLIENTS
+            //FIND OUT HOW TO SEND FILES THROUGH A SOCKET
          }
          else {
             printf("///ALERT///\n");
