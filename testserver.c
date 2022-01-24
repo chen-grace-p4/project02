@@ -80,12 +80,12 @@ int main() {
              strcat(temp, buffer);
              printf("%s\n", temp);
 
+             //  SAVE TEMP IN SOME FILE HERE FOR history
+             //CONVERT INFOMRATION INTO A STRUCT TO BE STORED
             for(i = 0; i <= maxfd; i++) {
               //sending message to everyone except listen and ourself
               if (FD_ISSET(i, &clients)) {
                 if (i != listen_socket && i != fd) {
-                   //MIGHT NEED TO CHECK BUFFER AND DO SOMETHING ELSE OTHER THAN WRITE
-                  //IF WE'RE SENDING A FILE
                    //*strchr(temp, '\n') = 0;
                    //write(i, buffer, sizeof(buffer));
                    write(i, temp, sizeof(temp));

@@ -50,9 +50,10 @@ int main() {
             printf("\033[A\r||me||: '%s'\n", temp2);
             write(server, temp2, sizeof(temp2));
          }
-         else if (strcasecmp(first, "-file") == 0 ||strcasecmp(first, "-f") == 0  ) {
-            //MAKE IT SO THAT THE CLIENT WRITES A STRING OF PREVIEW OF FILE INFORMATION TO OTHER CLIENTS
-            //FIND OUT HOW TO SEND FILES THROUGH A SOCKET
+         else if (strcasecmp(first, "-history") == 0 ||strcasecmp(first, "-h") == 0  ) {
+            //CLIENT FINDS INFORMATION ABOUT HISTROY FILE AND OPENS THE FILE TO VIEW
+            //clear terminal
+            //somehow display data of history.csv and let users scroll through it...?
          }
          else {
             printf("///ALERT///\n");
