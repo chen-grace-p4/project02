@@ -23,7 +23,8 @@ Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i t
   * (NEW) clients are identified by usernames based on their file descriptor number
 
 * Working with files (Kyle)
-  * send files or images over the server so that other clients can access/see them
+  * (OMITTED)send files or images over the server so that other clients can access/see them
+  * (NEW) saving text messages into a file and allowing clients to access that file to see past logs of messages
 
 * Finding information about files (Kyle)
   * display information about files such as size, file type, and a preview of files
@@ -31,9 +32,8 @@ Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i t
   * at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server 
 
 * Signals (Grace)
-  * shortcuts to bold or italicize words 
-  * ex. ctrl b to bold, ctrl i to italicize, (OMITTED ->) ctrl c and ctrl v to copy and paste
-  * (NEW) bold or italicizing words will be indicated by ** or * around text
+  * (OMITTED)shortcuts to bold or italicize words 
+  * (NEW) to log if a user disconnected or reconnected 
 
 * (OMITTED) Layouting the GUI (Kyle)
   *  use gtk in c
