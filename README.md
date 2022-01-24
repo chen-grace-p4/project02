@@ -10,8 +10,11 @@ A terminal-based messaging server loosely inspired by Discord. Clients connect t
 First, start up the server after running make by running ./server. <br>
 On other terminal windows, run ./client on each window to connect multiple clients to the server. <br> 
 On the client-end, they can use the flag -m or -message (ex. "-m hi hows your day" to send hi hows your day) to send a regular text message. <br>
-They can also use the flag -f or -file (ex. "-f text.txt" to send text.txt) to send files to the other clients. <br>
-Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i to italicize their words (* around their words). 
+They can also use the flag -h or -history to view a history of logged messages and statistics about the history file. <br>
+Clients can also open a file called history.csv to see past logs of messages. <br>
+<br>
+(omit)They can also use the flag -f or -file (ex. "-f text.txt" to send text.txt) to send files to the other clients. <br>
+(omit) Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i to italicize their words (* around their words). 
 
 ## Description of Technical Design with omits/new parts added:
 * Sockets (Grace)
@@ -23,7 +26,8 @@ Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i t
   * (NEW) clients are identified by usernames based on their file descriptor number
 
 * Working with files (Kyle)
-  * send files or images over the server so that other clients can access/see them
+  * (OMITTED)send files or images over the server so that other clients can access/see them
+  * (NEW) saving text messages into a file and allowing clients to access that file to see past logs of messages
 
 * Finding information about files (Kyle)
   * display information about files such as size, file type, and a preview of files
@@ -31,9 +35,8 @@ Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i t
   * at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server 
 
 * Signals (Grace)
-  * shortcuts to bold or italicize words 
-  * ex. ctrl b to bold, ctrl i to italicize, (OMITTED ->) ctrl c and ctrl v to copy and paste
-  * (NEW) bold or italicizing words will be indicated by ** or * around text
+  * (OMITTED)shortcuts to bold or italicize words 
+  * (NEW) to log if a user disconnected or reconnected 
 
 * (OMITTED) Layouting the GUI (Kyle)
   *  use gtk in c
