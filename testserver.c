@@ -7,11 +7,11 @@ int main() {
    printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
    printf("\n");
    printf("\t - begin inputs with -m or -message to send a normal text message.\n");
-   printf("\t - begin inputs with -f or -file to send a file.\n");
+   printf("\t - send -h or -history to view chatlog history.\n");
    printf("\n");
-   printf("since we can't exactly bold or italicize text on terminal without another library...\n");
-   printf("\t - ctrl+b will surround text with ** for bolding text.\n");
-   printf("\t - ctrl+i will surround text with * for italics.\n");
+   printf("in order to disconnect...\n");
+   printf("\t - ctrl+c to disconnect and let others know + mark it in chatlog history\n");
+   printf("\t - ctrl+/ to disconnect you without letting other users know\n");
 
   int fd, listen_socket, maxfd, client;
   //this is the fd_set that will be modified by select

@@ -59,7 +59,9 @@ int main() {
             printf("///ALERT///\n");
             printf("Please enter valid command:\n");
             printf("\t '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
-            printf("\t '-f yourfilehere' OR '-file yourfilehere' to send a file.\n");
+            printf("\t '-h' OR '-history' to view chatlog history.\n");
+            printf("\t ctrl+c to disconnect and let others know and mark in chatlog.\n");
+            printf("\t ctrl+/ to disconnect without letting others know.\n");
             printf("///ALERT///\n");
          }
       }
