@@ -7,11 +7,10 @@ At the most basic level, users will interact with the server using the terminal.
 
 Once the most basic interface is made, there will be a GUI display for the server instead. At this point, the user wil be able to keyboard shortcuts such as Ctrl + B to bold or Ctrl + I to italicize words. If we get to a GUI for the users too, we'll try to make it so Ctrl+C for copy and Ctrl + V for paste works as well, and make the place to enter messages more streamlined (allow the use of the cursor to move the point).
 
-## Description of Technical Design:
+## Description of Initial Technical Design:
 * Sockets (Grace)
   * connecting users(clients) to a server where they send messages to each other
   * server returns a "new message" to every client everytime a client sends something to the server so that the client end can see all the messages
-  * not sure if server should display all the messages on the server itself
   * "subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
 
 * Working with files (Kyle)
@@ -29,6 +28,14 @@ Once the most basic interface is made, there will be a GUI display for the serve
 * Layouting the GUI (Kyle)
   *  use gtk in c
   *  still need to research
+
+## Some known bugs or weird things:
+* When a client recieves a message from another client while they're still typing a message, it will look a little wonky on the terminal but what they have already typed before receiving a new message is included in the next message they send. 
+
+## Features we weren't able to implement:
+* subservers or channels
+* the gtk gui 
+* without the gui, the bold and italicize won't appear directly on the text but will still appear as asterisks around the text
 
 ## Timeline:
 * 1/13 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed both on their end and on the server.
