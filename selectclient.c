@@ -38,18 +38,16 @@ int main() {
          char * first = strtok(buffer, " ");
          //char * first = strsep(temp, " ");
          if (strcasecmp(first, "-message") == 0 ||strcasecmp(first, "-m") == 0  ) {
-            printf("\033[A\r||me||: '%s'\n", temp);
-            write(server, temp, sizeof(temp));
-
-            // IF THERES EXTRA TIME, FIND WAY TO CUT OFF "-m " IN FRONT OF MESSAGE
-            // first = strtok(NULL, " ");
-            // printf("\033[A\r||me||: -");
-            // while (first != NULL) {
-            //    printf("%s ", first);
-            //    write(server, first, sizeof(first));
-            //    first = strtok(NULL," ");
-            // }
-            // printf("-\n");
+            //IF THERES EXTRA TIME, FIND WAY TO TRIM WHITE SPACE AT THE END
+            char temp2[BUFFER_SIZE] = "";
+            first = strtok(NULL, " ");
+            while (first != NULL) {
+               strcat(temp2, first);
+               strcat(temp2, " ");
+               first = strtok(NULL," ");
+            }
+            printf("\033[A\r||me||: '%s'\n", temp2);
+            write(server, temp2, sizeof(temp2));
          }
          else if (strcasecmp(first, "-file") == 0 ||strcasecmp(first, "-f") == 0  ) {
 
