@@ -84,41 +84,57 @@ int main() {
           if (read(fd, buffer, sizeof(buffer)) ) {
              int id = fd-3;
              char temp[BUFFER_SIZE];
-             sprintf(temp, "||user%d||: '", id);
+             sprintf(temp, "||user%d||: ' ", id);
              //printf("%s", userid);
 
              // creates file "chat.log"
              // int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 
              // opens file "chat.log" for appending
-             int open_call = open(CHATLOG, O_WRONLY | O_TRUNC);
+             // int open_call = open(CHATLOG, O_WRONLY | O_TRUNC);
+
+             FILE *open_call = fopen (CHATLOG,"w");
+             // if (open_call == NULL) {
+             //   fprintf(stderr, "\nError opening %s\n\n", CHATLOG);
+             //   exit(1);
+             // }
 
              // struct
-             struct log store[1];
+             struct log store;
 
              // userid
-             store[0].userid = id;
+             store.userid = id;
+             char temp2[BUFFER_SIZE];
+
+             sprintf(temp2, "user%d", id);
+             printf("[ %s ] ", temp2);
 
              // time
              time_t now;
              struct tm ts;
              time(&now);
              ts = *localtime(&now);
-             store[0].time = ts;
+             store.time = ts;
 
              // Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
-             // char readable[80];
-             // strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
-             // printf("%s\n", readable);
+             char readable[80];
+             strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
+             printf("[ %s ] ", readable);
 
              // message
-             strcpy(store[0].message, buffer);
+             strcpy(store.message, buffer);
+             printf("[ %s] ", buffer);
 
              // write to "chat.log"
-             write(create_call, store, sizeof(store));
-             printf("wrote %lu bytes to %s\n", file_size(CHATLOG), CHATLOG);
+             fwrite (&store, sizeof(struct log), 1, open_call);
 
-             close(open_call);
+
+
+             // write(create_call, store, sizeof(store));
+             printf("--> [ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
+             // printf("wrote %lu bytes to %s\n", file_size(CHATLOG), CHATLOG);
+
+             // close(open_call);
 
 
 
@@ -134,8 +150,8 @@ int main() {
 
 
 
-             strcat(temp, buffer);
-             printf("%s\n", temp);
+             strcat(temp, buffer); // !!!****** DO NOT DELETE VERY VERY VERY IMPORTANT ******!!!
+             // printf("%s\n", temp);
 
              //  SAVE TEMP IN SOME FILE HERE FOR history
              //CONVERT INFOMRATION INTO A STRUCT TO BE STORED

@@ -47,10 +47,56 @@ int main() {
                strcat(temp2, " ");
                first = strtok(NULL," ");
             }
-            printf("\033[A\r||me||: '%s'\n", temp2);
+            printf("\033[A\r||me||: ' %s'\n", temp2);
             write(server, temp2, sizeof(temp2));
          }
          else if (strcasecmp(first, "-history") == 0 ||strcasecmp(first, "-h") == 0  ) {
+
+           int open_call = open(CHATLOG, O_RDONLY, 0);
+
+           struct log history;
+
+           /*** open the accounts file ***/
+           FILE *read_call = fopen (CHATLOG, "r");
+           // if (infile == NULL) {
+           //   fprintf(stderr, "\nError opening %s\n\n", CHATLOG);
+           //   exit(1);
+           // }
+
+           printf("Chatlog Opened!!!!\n");
+
+           while (fread(&history, sizeof(struct log), 1, read_call)) {
+
+             sprintf(temp, "user%d", history.userid);
+             printf("[%s] ", temp);
+
+           }
+
+           // while (fread (&history, sizeof(struct log), 1, infile)) {
+
+             // sprintf(temp, "user%d", history.userid);
+             // printf("[%s] ", temp);
+
+             // char chatlog_time[80];
+             // strftime(chatlog_time, sizeof(chatlog_time), "%a %Y-%m-%d %H:%M:%S %Z", &history.time);
+             // printf("%s\n", chatlog_time);
+
+
+             // printf ("Name = %10s %10s   Acct Num = %8d   Balance = %8.2f\n", input.fname, input.lname, input.acct_num, input.acct_balance);
+           // }
+
+
+           time_t now;
+           struct tm ts;
+           time(&now);
+           ts = *localtime(&now);
+           char readable[80];
+           strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
+           printf("Now: %s\n", readable);
+
+           close(open_call);
+
+
             //CLIENT FINDS INFORMATION ABOUT HISTROY FILE AND OPENS THE FILE TO VIEW
             //clear terminal
             //somehow display data of history.csv and let users scroll through it...?
