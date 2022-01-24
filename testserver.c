@@ -56,20 +56,18 @@ int main() {
 
         //listen socket not ready so existing client
         else {
-           printf("ready fd not listen socket: %d\n", fd);
+           //printf("ready fd: %d\n", fd);
           //if the socket got closed, select will trigger
           //if read returns 0 bytes, then we should close the
           //connection, otherwise process it.
           if (read(fd, buffer, sizeof(buffer)) ) {
-            // buffer[strlen(buffer)] = '\0';
-            // strcat(buffer, "manipulated");
             for(i = 0; i <= maxfd; i++) {
               //sending message to everyone except listen and ourself
               if (FD_ISSET(i, &clients)) {
                 if (i != listen_socket && i != fd) {
                    int id = fd-3;
                    char temp[BUFFER_SIZE];
-                   sprintf(temp, "||user%d||: -", id);
+                   sprintf(temp, "||user%d||: '", id);
                    //printf("%s", userid);
 
                    strcat(temp, buffer);
@@ -78,15 +76,8 @@ int main() {
                    //write(i, buffer, sizeof(buffer));
                    write(i, temp, sizeof(temp));
                 }
-
-                //HOW TO MAKE OWN MESSAGE BE PART OF IT?
-                // if (i != listen_socket) {
-                //   write(i, buffer, sizeof(buffer));
-                // }
               }
             }
-
-            //write(fd, buffer, sizeof(buffer));
           }//data to be read
           else {
             //remove this descriptor from the full set

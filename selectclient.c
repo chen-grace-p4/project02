@@ -32,18 +32,34 @@ int main() {
 
          char temp[BUFFER_SIZE];
          strcpy(temp, buffer);
-
-         //strcpy(temp, strcat(username, ": "));
-         //strcpy(temp, strcat(temp, buffer));
+         //char *temp = buffer;
 
          //separate buffer into array and check first word for command
          char * first = strtok(buffer, " ");
-         if (strcasecmp(first, "update") == 0) {
-           printf("updating to most recent messages\n");
-         } else {
-           //printf("\033[A\r||sent||: -%s-\n", temp);
-           printf("\033[A\r||me||: -%s-\n", temp);
-           write(server, temp, sizeof(temp));
+         //char * first = strsep(temp, " ");
+         if (strcasecmp(first, "-message") == 0 ||strcasecmp(first, "-m") == 0  ) {
+            printf("\033[A\r||me||: '%s'\n", temp);
+            write(server, temp, sizeof(temp));
+
+            // IF THERES EXTRA TIME, FIND WAY TO CUT OFF "-m " IN FRONT OF MESSAGE
+            // first = strtok(NULL, " ");
+            // printf("\033[A\r||me||: -");
+            // while (first != NULL) {
+            //    printf("%s ", first);
+            //    write(server, first, sizeof(first));
+            //    first = strtok(NULL," ");
+            // }
+            // printf("-\n");
+         }
+         else if (strcasecmp(first, "-file") == 0 ||strcasecmp(first, "-f") == 0  ) {
+
+         }
+         else {
+            printf("///ALERT///\n");
+            printf("Please enter valid command:\n");
+            printf("\t '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
+            printf("\t '-f yourfilehere' OR '-file yourfilehere' to send a file.\n");
+            printf("///ALERT///\n");
          }
       }
       //nothing is entered on stdin
@@ -56,7 +72,7 @@ int main() {
          if (count != 0) {
             read(server, buffer, sizeof(buffer));
        		//printf("||received||: -%s-\n", buffer);
-            printf("%s-\n", buffer);
+            printf("%s'\n", buffer);
          }
       }
    }
