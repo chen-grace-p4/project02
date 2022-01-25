@@ -61,12 +61,27 @@ int main() {
              exit(1);
            }
 
-           // erases -h/-history
+           // erases -c/-chatlog
+           printf("\033[0;33m"); //Set the text to the color red
            printf("\033[A\r==================================================================================\n");
+           printf("\033[0m"); //Resets the text to default color
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of messages
-           printf("[CHATLOG] [CHATLOG SIZE: %lu BYTES] [TOTAL NUMBER OF MESSAGES: %lu]\n\n", file_size(CHATLOG), ((file_size(CHATLOG) / sizeof(struct chatlog))));
+           printf("\033[0;35m"); //Set the text to the color red
+           printf("[ CHATLOG ]  ");
+           printf("\033[0m"); //Resets the text to default color
+
+
+           printf("[ CHATLOG SIZE: %lu BYTES ]  [ TOTAL NUMBER OF MESSAGES: %lu ]\n\n", file_size(CHATLOG), ((file_size(CHATLOG) / sizeof(struct chatlog))));
+
+           printf("\033[0;35m"); //Set the text to the color red
+           printf(" [ TOTAL NUMBER OF MESSAGES: %lu ] ");
+           printf("\033[0m"); //Resets the text to default color
+
+
+
+
 
            // struct - stores userid, time, and message
            struct chatlog log;
@@ -88,7 +103,10 @@ int main() {
 
            }
 
+           printf("\033[0;33m"); //Set the text to the color red
            printf("==================================================================================\n");
+           printf("\033[0m"); //Resets the text to default color
+
            fclose(read_call);
          }
 
@@ -107,7 +125,7 @@ int main() {
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of entries
-           printf("[ACTIVITYLOG] [ACTIVITYLOG SIZE: %lu BYTES] [TOTAL NUMBER OF ENTRIES: %lu]\n\n", file_size(ACTIVITYLOG), ((file_size(ACTIVITYLOG) / sizeof(struct activitylog))));
+           printf("[ ACTIVITYLOG ] [ ACTIVITYLOG SIZE: %lu BYTES ] [ TOTAL NUMBER OF ENTRIES: %lu ]\n\n", file_size(ACTIVITYLOG), ((file_size(ACTIVITYLOG) / sizeof(struct activitylog))));
 
            // struct - stores userid, time, and message
            struct activitylog log;

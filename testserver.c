@@ -80,9 +80,7 @@ int main() {
           struct activitylog connect;
 
           // userid
-          int id = fd-3;
-          printf("fd when connecting = %d\n", fd);
-          printf("id when connecting = %d\n", id);
+          int id = client-3;
           connect.userid = id;
           char temp[BUFFER_SIZE];
           sprintf(temp, "user%d", id); // temp = user1, user2, etc.
@@ -139,8 +137,6 @@ int main() {
           if (read(fd, buffer, sizeof(buffer)) ) {
 
              int id = fd-3;
-             printf("fd when sending message = %d\n", fd);
-             printf("id when sending message = %d\n", id);
              char temp[BUFFER_SIZE];
              sprintf(temp, "||user%d||: ' ", id);
 
