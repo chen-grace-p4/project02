@@ -50,7 +50,8 @@ int main() {
             printf("\033[A\r||me||: ' %s'\n", temp2);
             write(server, temp2, sizeof(temp2));
          }
-         else if (strcasecmp(first, "-history") == 0 ||strcasecmp(first, "-h") == 0  ) {
+
+         else if (strcasecmp(first, "-chatlog") == 0 ||strcasecmp(first, "-c") == 0  ) {
 
            // open chat.log for reading
            FILE *read_call;
@@ -63,47 +64,79 @@ int main() {
            // erases -h/-history
            printf("\033[A\r==================================================================================\n");
 
-           // heading, includes size of chatlog and # of messages (each message stored in chat.log uses 1064 bytes)
-           printf("[CHATLOG] [CHATLOG SIZE: %lu BYTES] [TOTAL NUMBER OF MESSAGES: %lu]\n\n", file_size(CHATLOG), ((file_size(CHATLOG) / 1064)));
+           // heading
+           // includes size of chatlog and uses that number to calculate the total number of messages
+           printf("[CHATLOG] [CHATLOG SIZE: %lu BYTES] [TOTAL NUMBER OF MESSAGES: %lu]\n\n", file_size(CHATLOG), ((file_size(CHATLOG) / sizeof(struct chatlog))));
 
            // struct - stores userid, time, and message
-           struct chatlog history;
+           struct chatlog log;
 
            // reads and prints the chatlog
-           while (fread (&history, sizeof(history), 1, read_call)) {
+           while (fread (&log, sizeof(log), 1, read_call)) {
 
              // [TIME]
-             char *foo = asctime(&history.time);
-             foo[strlen(foo) - 1] = 0;
+             char *foo = asctime(&log.time);
+             foo[strlen(foo) - 1] = '\0';
              printf("[ %s ] ", foo);
 
              // [USERID]
-             sprintf(temp, "user%d", history.userid);
+             sprintf(temp, "user%d", log.userid);
              printf("[ %s ] ", temp);
 
              // [MESSAGE]
-             printf("[ %s]\n", history.message);
+             printf("[ %s]\n", log.message);
+
            }
 
+           printf("==================================================================================\n");
+           fclose(read_call);
+         }
+
+         else if (strcasecmp(first, "-activitylog") == 0 ||strcasecmp(first, "-a") == 0  ) {
+
+           // open activity.log for reading
+           FILE *read_call;
+           read_call = fopen(ACTIVITYLOG, "r");
+           if (read_call == NULL) {
+             fprintf(stderr, "\nError Opening %s\n\n", ACTIVITYLOG);
+             exit(1);
+           }
+
+           // erases -h/-history
+           printf("\033[A\r==================================================================================\n");
+
+           // heading
+           // includes size of chatlog and uses that number to calculate the total number of entries
+           printf("[ACTIVITYLOG] [ACTIVITYLOG SIZE: %lu BYTES] [TOTAL NUMBER OF ENTRIES: %lu]\n\n", file_size(ACTIVITYLOG), ((file_size(ACTIVITYLOG) / sizeof(struct activitylog))));
+
+           // struct - stores userid, time, and message
+           struct activitylog log;
+
+           // reads and prints the activitylog
+           while (fread (&log, sizeof(log), 1, read_call)) {
+
+             // [ TIME ]
+             char *foo = asctime(&log.time);
+             foo[strlen(foo) - 1] = 0;
+             printf("[ %s ] ", foo);
+
+             // [ USERID ]
+             sprintf(temp, "user%d", log.userid);
+             printf("[ %s ] ", temp);
+
+             // [ ACTIVITY ]
+             if      (log.activity == 1) printf("[ connected ]");
+             else if (log.activity == 2) printf("[ disconnected ]");
+             else if (log.activity == 3) printf("[ sent a message ]");
+             else if (log.activity == 4) printf("[ viewed the chatlog ]");
+             else if (log.activity == 5) printf("[ viewed the activitylog ]");
+             printf("\n");
+           }
 
            printf("==================================================================================\n");
-           // time_t now;
-           // struct tm ts;
-           // time(&now);
-           // ts = *localtime(&now);
-           // char readable[80];
-           // strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
-           // printf("Current Time: %s\n", readable);
-           // printf("=========================================\n");
-
-           // close
            fclose(read_call);
-
-
-            //CLIENT FINDS INFORMATION ABOUT HISTROY FILE AND OPENS THE FILE TO VIEW
-            //clear terminal
-            //somehow display data of history.csv and let users scroll through it...?
          }
+
          else {
             printf("///ALERT///\n");
             printf("Please enter valid command:\n");
@@ -131,6 +164,7 @@ int main() {
    }
    return 0;
 }
+
 
 // returns file size in bytes
 unsigned long file_size(char *file) {

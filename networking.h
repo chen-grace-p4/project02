@@ -57,7 +57,7 @@ struct chatlog {
 struct activitylog {
   int userid;
   struct tm time;
-  char activity[1000];
+  int activity;
 };
 
 #endif

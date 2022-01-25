@@ -25,5 +25,5 @@ clean:
 	rm *.o
 	rm server
 	rm client
-	rm chat.log
 	rm activity.log
+	rm chat.log

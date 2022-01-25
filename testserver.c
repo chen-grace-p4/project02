@@ -2,20 +2,17 @@
 #include "networking.h"
 
 int main() {
-   // creates file "chat.log"
-   // int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 
-
-   printf("INSTRUCTIONS FOR CLIENTS:\n");
-   printf("\t - all clients should be connected at once in the beginning to see all messages.\n");
-   printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
-   printf("\n");
-   printf("\t - begin inputs with -m or -message to send a normal text message.\n");
-   printf("\t - send -h or -history to view chatlog history.\n");
-   printf("\n");
-   printf("in order to disconnect...\n");
-   printf("\t - ctrl+c to disconnect and let others know + mark it in chatlog history\n");
-   printf("\t - ctrl+/ to disconnect you without letting other users know\n");
+  printf("INSTRUCTIONS FOR CLIENTS:\n");
+  printf("\t - all clients should be connected at once in the beginning to see all messages.\n");
+  printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
+  printf("\n");
+  printf("\t - begin inputs with -m or -message to send a normal text message.\n");
+  printf("\t - send -h or -history to view chatlog history.\n");
+  printf("\n");
+  printf("in order to disconnect...\n");
+  printf("\t - ctrl+c to disconnect and let others know + mark it in chatlog history\n");
+  printf("\t - ctrl+/ to disconnect you without letting other users know\n");
 
   int fd, listen_socket, maxfd, client;
   //this is the fd_set that will be modified by select
@@ -34,7 +31,6 @@ int main() {
   //we have to keep track of the largest file descriptor for select
   //currently, listen_socket is the only, and therefore largest
   maxfd = listen_socket;
-
 
   while (1) {
     //must reset read_fds after each time you process select
@@ -67,6 +63,71 @@ int main() {
 
           //make sure to update maxfd
           if (client > maxfd) maxfd = client;
+
+          // ACTIVITY LOG ============================================================================================================
+
+          FILE *open_call;
+          open_call = fopen(ACTIVITYLOG, "a");
+          if (open_call == NULL) {
+            fprintf(stderr, "\nError opening %s\n\n", ACTIVITYLOG);
+            exit(1);
+          }
+
+          // file size before writing
+          int activitylog_size_before = file_size(ACTIVITYLOG);
+
+          // struct
+          struct activitylog connect;
+
+          // userid
+          int id = fd-3;
+          printf("fd when connecting = %d\n", fd);
+          printf("id when connecting = %d\n", id);
+          connect.userid = id;
+          char temp[BUFFER_SIZE];
+          sprintf(temp, "user%d", id); // temp = user1, user2, etc.
+          printf("[ %s ] ", temp);
+
+          // activity
+          /*
+               1 - CONNECT
+               2 - DISCONNECT
+               3 - SENT A MESSAGE
+               4 - VIEWED THE CHATLOG
+               5 - VIEWED THE ACTIVITYLOG
+          */
+          connect.activity = 1;
+          if      (connect.activity == 1) printf("[ connected ]");
+          else if (connect.activity == 2) printf("[ disconnected ]");
+          else if (connect.activity == 3) printf("[ sent a message ]");
+          else if (connect.activity == 4) printf("[ viewed the chatlog ]");
+          else if (connect.activity == 5) printf("[ viewed the activitylog ]");
+
+          // time
+          time_t now;
+          struct tm ts;
+          time(&now);
+          ts = *localtime(&now);
+          connect.time = ts;
+
+          char *foo = asctime(&connect.time);
+          foo[strlen(foo) - 1] = 0;
+
+          printf("\n          ");
+          printf("[ %s ] ", foo);
+
+          // write to activity
+          fwrite(&connect, sizeof(connect), 1, open_call);
+
+          // close
+          fclose(open_call);
+
+          printf("\n          ");
+          printf("[ %lu bytes written to %s ] ", file_size(ACTIVITYLOG) - activitylog_size_before, ACTIVITYLOG);
+          printf("[ size of %s: %lu bytes ]\n", ACTIVITYLOG, file_size(ACTIVITYLOG));
+
+          // ACTIVITY LOG ============================================================================================================
+
         }//new connections
 
         //listen socket not ready so existing client
@@ -78,6 +139,8 @@ int main() {
           if (read(fd, buffer, sizeof(buffer)) ) {
 
              int id = fd-3;
+             printf("fd when sending message = %d\n", fd);
+             printf("id when sending message = %d\n", id);
              char temp[BUFFER_SIZE];
              sprintf(temp, "||user%d||: ' ", id);
 
@@ -88,9 +151,8 @@ int main() {
                exit(1);
              }
 
-             // file size before any writing
+             // file size before writing
              int chatlog_size_before = file_size(CHATLOG);
-             int activitylog_size_before = file_size(ACTIVITYLOG);
 
              // struct
              struct chatlog store;
@@ -129,11 +191,9 @@ int main() {
              // printing out updates about chat.log and activity.log
              printf("\n          ");
              printf("[ %lu bytes written to %s ] ", file_size(CHATLOG) - chatlog_size_before, CHATLOG);
-             printf("[ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
+             printf("[ size of %s: %lu bytes ]", CHATLOG, file_size(CHATLOG));
 
-             printf("\n          ");
-             printf("[ %lu bytes written to %s ] ", file_size(ACTIVITYLOG) - activitylog_size_before, ACTIVITYLOG);
-             printf("[ size of %s: %lu bytes ]\n", ACTIVITYLOG, file_size(ACTIVITYLOG));
+
 
 
 
@@ -168,7 +228,6 @@ int main() {
 
   return 0;
 }
-
 
 // returns file size in bytes
 unsigned long file_size(char *file) {
