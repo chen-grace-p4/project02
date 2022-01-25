@@ -47,7 +47,9 @@ int main() {
                strcat(temp2, " ");
                first = strtok(NULL," ");
             }
-            printf("\033[A\r||me||: ' %s'\n", temp2);
+            printf("\033[0;36m"); // CYAN
+            printf("\033[A\rme: %s\n", temp2);
+            printf("\033[0m"); // DEFAULT
             write(server, temp2, sizeof(temp2));
          }
 
@@ -62,26 +64,22 @@ int main() {
            }
 
            // erases -c/-chatlog
-           // printf("\033[0;33m"); //Set the text to the color red
+           printf("\033[0;33m"); // YELLOW
            printf("\033[A\r==================================================================================\n");
-           // printf("\033[0m"); //Resets the text to default color
+           printf("\033[0m"); // DEFAULT
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of messages
-           printf("\033[0;35m"); //Set the text to the color red
+           printf("\033[0;36m"); // CYAN
            printf("[ CHATLOG ] ");
 
-           printf("\033[0m"); //Resets the text to default color
+           printf("\033[0m"); // DEFAULT
            printf(" [ CHATLOG SIZE: %lu BYTES ] ", file_size(CHATLOG));
 
-           printf("\033[0;34m"); //Set the text to the color red
-           printf(" [ TOTAL NUMBER OF MESSAGES: %lu ]\n", ((file_size(CHATLOG) / sizeof(struct chatlog))));
+           printf("\033[0;36m"); // CYAN
+           printf(" [ TOTAL NUMBER OF MESSAGES: %lu ]\n\n", ((file_size(CHATLOG) / sizeof(struct chatlog))));
 
-           printf("\033[0m"); //Resets the text to default color
-
-
-
-
+           printf("\033[0m"); // DEFAULT
 
            // struct - stores userid, time, and message
            struct chatlog log;
@@ -103,9 +101,9 @@ int main() {
 
            }
 
-           // printf("\033[0;33m"); //Set the text to the color red
+           printf("\033[0;33m"); // YELLOW
            printf("==================================================================================\n");
-           // printf("\033[0m"); //Resets the text to default color
+           printf("\033[0m"); // DEFAULT
 
            fclose(read_call);
          }
@@ -120,12 +118,23 @@ int main() {
              exit(1);
            }
 
-           // erases -h/-history
+           // erases -a/-activitylog
+           printf("\033[0;36m"); // CYAN
            printf("\033[A\r==================================================================================\n");
+           printf("\033[0m"); // DEFAULT
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of entries
-           printf("[ ACTIVITYLOG ] [ ACTIVITYLOG SIZE: %lu BYTES ] [ TOTAL NUMBER OF ENTRIES: %lu ]\n\n", file_size(ACTIVITYLOG), ((file_size(ACTIVITYLOG) / sizeof(struct activitylog))));
+           printf("\033[0;33m"); // YELLOW
+           printf("[ ACTIVITYLOG ] ");
+
+           printf("\033[0m"); // DEFAULT
+           printf(" [ ACTIVITYLOG SIZE: %lu BYTES ] ", file_size(ACTIVITYLOG));
+
+           printf("\033[0;33m"); // YELLOW
+           printf(" [ TOTAL NUMBER OF ENTRIES: %lu ]\n\n", ((file_size(ACTIVITYLOG) / sizeof(struct activitylog))));
+
+           printf("\033[0m"); // DEFAULT
 
            // struct - stores userid, time, and message
            struct activitylog log;
@@ -151,7 +160,10 @@ int main() {
              printf("\n");
            }
 
+           printf("\033[0;36m"); // CYAN
            printf("==================================================================================\n");
+           printf("\033[0m"); // DEFAULT
+
            fclose(read_call);
          }
 
