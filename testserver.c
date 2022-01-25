@@ -9,7 +9,7 @@ unsigned long file_size(char *file) {
 
 int main() {
    // creates file "chat.log"
-   int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+   // int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 
 
    printf("INSTRUCTIONS FOR CLIENTS:\n");
@@ -93,20 +93,23 @@ int main() {
              // opens file "chat.log" for appending
              // int open_call = open(CHATLOG, O_WRONLY | O_TRUNC);
 
-             FILE *open_call = fopen (CHATLOG,"w");
-             // if (open_call == NULL) {
-             //   fprintf(stderr, "\nError opening %s\n\n", CHATLOG);
-             //   exit(1);
-             // }
+             // FILE *open_call = fopen (CHATLOG,"w");
+
+             FILE *open_call;
+             open_call = fopen(CHATLOG, "a");
+             if (open_call == NULL) {
+               fprintf(stderr, "\nError opening %s\n\n", CHATLOG);
+               exit(1);
+             }
 
              // struct
              struct log store;
 
              // userid
              store.userid = id;
-             char temp2[BUFFER_SIZE];
 
-             sprintf(temp2, "user%d", id);
+             char temp2[BUFFER_SIZE];
+             sprintf(temp2, "user%d", store.userid);
              printf("[ %s ] ", temp2);
 
              // time
@@ -114,25 +117,33 @@ int main() {
              struct tm ts;
              time(&now);
              ts = *localtime(&now);
+             // ts = localtime(&now);
              store.time = ts;
 
+             char *foo = asctime(&store.time);
+             foo[strlen(foo) - 1] = 0;
+
+             printf("[ %s ] ", foo);
+
              // Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
-             char readable[80];
-             strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
-             printf("[ %s ] ", readable);
+             // char readable[80];
+             // strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
+             // printf("[ %s ] ", readable);
 
              // message
              strcpy(store.message, buffer);
-             printf("[ %s] ", buffer);
+             printf("[ %s] ", store.message);
 
              // write to "chat.log"
-             fwrite (&store, sizeof(struct log), 1, open_call);
-
-
+             fwrite(&store, sizeof(store), 1, open_call);
 
              // write(create_call, store, sizeof(store));
-             printf("--> [ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
              // printf("wrote %lu bytes to %s\n", file_size(CHATLOG), CHATLOG);
+
+             fclose(open_call);
+
+
+             printf("-- [ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
 
              // close(open_call);
 
@@ -176,7 +187,7 @@ int main() {
     }//loop through sockets
   }//forever
   close(listen_socket);
-  close(create_call);
+  // close(create_call);
 
   return 0;
 }
