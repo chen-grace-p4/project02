@@ -62,21 +62,21 @@ int main() {
            }
 
            // erases -c/-chatlog
-           printf("\033[0;33m"); //Set the text to the color red
+           // printf("\033[0;33m"); //Set the text to the color red
            printf("\033[A\r==================================================================================\n");
-           printf("\033[0m"); //Resets the text to default color
+           // printf("\033[0m"); //Resets the text to default color
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of messages
            printf("\033[0;35m"); //Set the text to the color red
-           printf("[ CHATLOG ]  ");
+           printf("[ CHATLOG ] ");
+
            printf("\033[0m"); //Resets the text to default color
+           printf(" [ CHATLOG SIZE: %lu BYTES ] ", file_size(CHATLOG));
 
+           printf("\033[0;34m"); //Set the text to the color red
+           printf(" [ TOTAL NUMBER OF MESSAGES: %lu ]\n", ((file_size(CHATLOG) / sizeof(struct chatlog))));
 
-           printf("[ CHATLOG SIZE: %lu BYTES ]  [ TOTAL NUMBER OF MESSAGES: %lu ]\n\n", file_size(CHATLOG), ((file_size(CHATLOG) / sizeof(struct chatlog))));
-
-           printf("\033[0;35m"); //Set the text to the color red
-           printf(" [ TOTAL NUMBER OF MESSAGES: %lu ] ");
            printf("\033[0m"); //Resets the text to default color
 
 
@@ -103,9 +103,9 @@ int main() {
 
            }
 
-           printf("\033[0;33m"); //Set the text to the color red
+           // printf("\033[0;33m"); //Set the text to the color red
            printf("==================================================================================\n");
-           printf("\033[0m"); //Resets the text to default color
+           // printf("\033[0m"); //Resets the text to default color
 
            fclose(read_call);
          }
