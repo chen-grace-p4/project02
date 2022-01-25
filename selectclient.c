@@ -47,13 +47,13 @@ int main() {
                strcat(temp2, " ");
                first = strtok(NULL," ");
             }
-            printf("\033[0;36m"); // CYAN
+            printf("\033[0;35m"); // CYAN
             printf("\033[A\rme: %s\n", temp2);
             printf("\033[0m"); // DEFAULT
             write(server, temp2, sizeof(temp2));
          }
 
-         else if (strcasecmp(first, "-chatlog") == 0 ||strcasecmp(first, "-c") == 0  ) {
+         else if (strcasecmp(first, "-chatlog") == 0 || strcasecmp(first, "-c") == 0) {
 
            // open chat.log for reading
            FILE *read_call;
@@ -108,7 +108,7 @@ int main() {
            fclose(read_call);
          }
 
-         else if (strcasecmp(first, "-activitylog") == 0 ||strcasecmp(first, "-a") == 0  ) {
+         else if (strcasecmp(first, "-activitylog") == 0 || strcasecmp(first, "-a") == 0) {
 
            // open activity.log for reading
            FILE *read_call;
