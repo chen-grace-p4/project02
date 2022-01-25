@@ -33,6 +33,7 @@
 #define LISTEN 0
 
 #define CHATLOG "chat.log"
+#define ACTIVITYLOG "activity.log"
 
 void error_check( int i, char *s );
 void error_check_sock( int i, char *s, int sd );
@@ -42,13 +43,21 @@ int server_connect(int sd);
 
 int client_setup(char * server);
 
+unsigned long file_size(char *file);
+
 //int udp_server_setup();
 //struct addrinfo *  udp_client_setup(char * server, int *sock);
 
-struct log {
-  int userid; // 1, 2, 3, ... --> prints out as user1, user2, user3, ...
-  struct tm time; // epoch time --> prints out as DAY-OF-WEEK YYYY-MM-DD HH:MM:SS TIME-ZONE
+struct chatlog {
+  int userid;
+  struct tm time;
   char message[1000];
+};
+
+struct activitylog {
+  int userid;
+  struct tm time;
+  char activity[1000];
 };
 
 #endif

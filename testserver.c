@@ -1,12 +1,6 @@
 
 #include "networking.h"
 
-unsigned long file_size(char *file) {
-  struct stat sb;
-  stat(file, &sb);
-  return sb.st_size;
-}
-
 int main() {
    // creates file "chat.log"
    // int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -82,18 +76,10 @@ int main() {
           //if read returns 0 bytes, then we should close the
           //connection, otherwise process it.
           if (read(fd, buffer, sizeof(buffer)) ) {
+
              int id = fd-3;
              char temp[BUFFER_SIZE];
              sprintf(temp, "||user%d||: ' ", id);
-             //printf("%s", userid);
-
-             // creates file "chat.log"
-             // int create_call = open(CHATLOG, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-
-             // opens file "chat.log" for appending
-             // int open_call = open(CHATLOG, O_WRONLY | O_TRUNC);
-
-             // FILE *open_call = fopen (CHATLOG,"w");
 
              FILE *open_call;
              open_call = fopen(CHATLOG, "a");
@@ -102,8 +88,12 @@ int main() {
                exit(1);
              }
 
+             // file size before any writing
+             int chatlog_size_before = file_size(CHATLOG);
+             int activitylog_size_before = file_size(ACTIVITYLOG);
+
              // struct
-             struct log store;
+             struct chatlog store;
 
              // userid
              store.userid = id;
@@ -112,51 +102,38 @@ int main() {
              sprintf(temp2, "user%d", store.userid);
              printf("[ %s ] ", temp2);
 
+             // message
+             strcpy(store.message, buffer);
+             printf("[ %s]", store.message);
+
+
              // time
              time_t now;
              struct tm ts;
              time(&now);
              ts = *localtime(&now);
-             // ts = localtime(&now);
              store.time = ts;
 
              char *foo = asctime(&store.time);
              foo[strlen(foo) - 1] = 0;
 
+             printf("\n          ");
              printf("[ %s ] ", foo);
 
-             // Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
-             // char readable[80];
-             // strftime(readable, sizeof(readable), "%a %Y-%m-%d %H:%M:%S %Z", &ts);
-             // printf("[ %s ] ", readable);
-
-             // message
-             strcpy(store.message, buffer);
-             printf("[ %s] ", store.message);
-
-             // write to "chat.log"
+             // write to chatlog
              fwrite(&store, sizeof(store), 1, open_call);
 
-             // write(create_call, store, sizeof(store));
-             // printf("wrote %lu bytes to %s\n", file_size(CHATLOG), CHATLOG);
-
+             // close
              fclose(open_call);
 
+             // printing out updates about chat.log and activity.log
+             printf("\n          ");
+             printf("[ %lu bytes written to %s ] ", file_size(CHATLOG) - chatlog_size_before, CHATLOG);
+             printf("[ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
 
-             printf("-- [ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
-
-             // close(open_call);
-
-
-
-             // printf("wrote %lu bytes to %s\n", file_size(DATAFILE), DATAFILE);
-
-
-
-
-
-
-
+             printf("\n          ");
+             printf("[ %lu bytes written to %s ] ", file_size(ACTIVITYLOG) - activitylog_size_before, ACTIVITYLOG);
+             printf("[ size of %s: %lu bytes ]\n", ACTIVITYLOG, file_size(ACTIVITYLOG));
 
 
 
@@ -190,4 +167,12 @@ int main() {
   // close(create_call);
 
   return 0;
+}
+
+
+// returns file size in bytes
+unsigned long file_size(char *file) {
+  struct stat sb;
+  stat(file, &sb);
+  return sb.st_size;
 }

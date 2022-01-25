@@ -26,3 +26,4 @@ clean:
 	rm server
 	rm client
 	rm chat.log
+	rm activity.log

@@ -56,42 +56,32 @@ int main() {
            FILE *read_call;
            read_call = fopen (CHATLOG, "r");
            if (read_call == NULL) {
-             fprintf(stderr, "\nError opening %s\n\n", CHATLOG);
+             fprintf(stderr, "\nError Opening %s\n\n", CHATLOG);
              exit(1);
            }
 
+           // erases -h/-history
            printf("\033[A\r==================================================================================\n");
-           printf("[CHATLOG]\n\n");
+
+           // heading, includes size of chatlog and # of messages (each message stored in chat.log uses 1064 bytes)
+           printf("[CHATLOG] [CHATLOG SIZE: %lu BYTES] [TOTAL NUMBER OF MESSAGES: %lu]\n\n", file_size(CHATLOG), ((file_size(CHATLOG) / 1064)));
 
            // struct - stores userid, time, and message
-           struct log history;
+           struct chatlog history;
 
            // reads and prints the chatlog
            while (fread (&history, sizeof(history), 1, read_call)) {
 
-             // char chatlog_time[80];
-             // strftime(chatlog_time, sizeof(chatlog_time), "%a %Y-%m-%d %H:%M:%S %Z", &history.time);
-
-
-             time_t now;
-             struct tm ts;
-             time(&now);
-             ts = *localtime(&now);
-             char chatlog_time[80];
-             // strftime(chatlog_time, sizeof(chatlog_time), "%a %Y-%m-%d %H:%M:%S %Z", &history.time);
-
-             // printf("[ %s ] ", chatlog_time);
-
+             // [TIME]
              char *foo = asctime(&history.time);
              foo[strlen(foo) - 1] = 0;
-
              printf("[ %s ] ", foo);
 
-
-
+             // [USERID]
              sprintf(temp, "user%d", history.userid);
              printf("[ %s ] ", temp);
 
+             // [MESSAGE]
              printf("[ %s]\n", history.message);
            }
 
@@ -106,8 +96,8 @@ int main() {
            // printf("Current Time: %s\n", readable);
            // printf("=========================================\n");
 
+           // close
            fclose(read_call);
-           // close(open_call);
 
 
             //CLIENT FINDS INFORMATION ABOUT HISTROY FILE AND OPENS THE FILE TO VIEW
@@ -118,7 +108,8 @@ int main() {
             printf("///ALERT///\n");
             printf("Please enter valid command:\n");
             printf("\t '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
-            printf("\t '-h' OR '-history' to view chatlog history.\n");
+            printf("\t '-c' OR '-chatlog' to view chatlog.\n");
+            printf("\t '-a' OR '-activitylog' to view activitylog.\n");
             printf("\t ctrl+c to disconnect and let others know and mark in chatlog.\n");
             printf("\t ctrl+/ to disconnect without letting others know.\n");
             printf("///ALERT///\n");
@@ -139,4 +130,11 @@ int main() {
       }
    }
    return 0;
+}
+
+// returns file size in bytes
+unsigned long file_size(char *file) {
+  struct stat sb;
+  stat(file, &sb);
+  return sb.st_size;
 }
