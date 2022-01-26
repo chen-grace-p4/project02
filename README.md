@@ -1,25 +1,25 @@
 # Systems Final Project - "Disaccord"
 **Members**: Grace Chen, Kyle Li <br>
 **Period**: 4 <br>
-**Project Statement**: We will create a very basic messaging server somewhat inspired by Discord or Slack. <br>
+**Project Statement**: A very basic messaging server somewhat inspired by Discord or Slack. <br>
 
 ## Broad Description of Project
 A terminal-based messaging server loosely inspired by Discord. A client (the user) connects to a server, where they can send text messages to other clients (users) that are also connected to the server. A CHATLOG records all of these messages, even if all users disconnect and if the server closes. An ACTIVITYLOG records all "activities" performed in the chat server (a list of what activities are recorded can be found in the Description of Technical Design).
 
 ## Description of User Interface (How to use our project):
-First, start up the server after running make by running ./server. <br>
-On other terminal windows, run ./client on each window to connect multiple clients to the server. <br> 
-On the client-end, they can use the flag -m or -message (ex. "-m hi hows your day" to send hi hows your day) to send a regular text message. <br>
-They can also use the flag -h or -history to view a history of logged messages and statistics about the history file. <br>
-Clients can also open a file called history.csv to see past logs of messages. <br>
+First, start up the server after running make by running ./server. <br> <br>
+On other terminal windows, run ./client on each window to connect multiple clients to the server. It is best to connect clients all at once since previously sent messages will not be sent to new clients (but can be viewed in the activitylog, see below). <br> <br>
+On the client-end...
+* use the flag -m or -message (ex. "-m hi hows your day" to send hi hows your day) to send a regular text message. <br>
+* use flag -c or -chatlog to view a log of all messages sent, who sent them, and the time they were sent. <br>
+* use flag -a or -activitylog to view a log of activities (ex. client disconnected and more) and the time they were performed. <br>
+
+Instructions are shown on the teminal in server and client as well (if an unrecognized flag or no flag is used in the client, a 'help' guide will pop up). <br>
 <br>
-(omit)They can also use the flag -f or -file (ex. "-f text.txt" to send text.txt) to send files to the other clients. <br>
-(omit) Clients can use ctrl+b to "bold" their words (** around their words) or ctrl+i to italicize their words (* around their words). 
 
 ## Description of Technical Design:<br>NOTE: Sections omitted from the original proposal are marked with "(OMITTED)." All new additions are marked with (NEW).
 * **Sockets (Grace)**
   * connecting users(clients) to a server where they send messages to each other
-  * server returns a "new message" to every client everytime a client sends something to the server so that the client end can see all the messages
   * (OMITTED)"subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
   * (NEW) server uses select to navigate through multiple clients and clients use select to navigate between STDIN and new messages from the server (other clients)
        * (NEW) <sys/ioctl.h> is included so ioctl is used to detect whether or not the socket has something new to read (a new message)
@@ -39,26 +39,26 @@ Clients can also open a file called history.csv to see past logs of messages. <b
       * 7: Server closed
 
 * **Finding information about files (Kyle)**
-  * display information about files such as size, file type, and a preview of files
-  * having a preview of a file will require the use of READ
-  * at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server 
+  * (OMITTED) display information about files such as size, file type, and a preview of files
+  * (OMITTED) having a preview of a file will require the use of READ
+  * (OMITTED) at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server 
 
 * **Signals (Grace)**
-  * (OMITTED) shortcuts to bold or italicize words 
-  * (NEW) to log if a user disconnected or reconnected 
+  * (NEW) to log if a user/server disconnect
+    * ctrl+c in the server or client disconnects them and also logs their disconnect in the activity log
+    * catches SIGINT, prints a disconnecting message, then adds activity to log
 
 * (OMITTED) Layouting the GUI (Kyle)
-  *  use gtk in c
-  *  still need to research
 
 ## Some known bugs or weird things:
 * When a client recieves a message from another client while they're still typing a message, it will look a little wonky on the terminal but what they have already typed before receiving a new message is included in the next message they send.
 * If the server closes while users are still connected, the users are NOT automatically disconnected. In our testing, two calls of -m/-message by the user leads to the client breaking. This is different from the user manually disconnecting with ctrl+c. Therefore, this "breaking" is NOT recorded as the user disconnecting in the ACTIVITYLOG.
 
-## Features we weren't able to implement (reiterated from above):
+## Features we didn't implement that were in our proposal (reiterated from above):
 * subservers or channels
 * the gtk gui 
-* without the gui, the bold and italicize won't appear directly on the text but will still appear as asterisks around the text
+* italicizing and bolding text
+* sending files 
 
 ## Timeline:
 * 1/13 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed both on their end and on the server.
