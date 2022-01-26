@@ -45,7 +45,9 @@ int client_setup(char * server);
 
 unsigned long file_size(char *file);
 
-void add_activity(int id, int type);
+// void add_activity(int id, int type);
+void add_activity(int type);
+
 
 //int udp_server_setup();
 //struct addrinfo *  udp_client_setup(char * server, int *sock);
@@ -57,7 +59,7 @@ struct chatlog {
 };
 
 struct activitylog {
-  int userid;
+  // int userid;
   struct tm time;
   int activity;
 };

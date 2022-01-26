@@ -55,6 +55,9 @@ int main() {
 
          else if (strcasecmp(first, "-chatlog") == 0 || strcasecmp(first, "-c") == 0) {
 
+           // erases -c/-chatlog
+           printf("\033[A\r       \n");
+
            // open chat.log for reading
            FILE *read_call;
            read_call = fopen (CHATLOG, "r");
@@ -63,10 +66,12 @@ int main() {
              exit(1);
            }
 
-           // erases -c/-chatlog
            printf("\033[0;33m"); // YELLOW
-           printf("\033[A\r==================================================================================\n");
+           printf("\033[A\r\n==================================================================================\n");
            printf("\033[0m"); // DEFAULT
+
+           add_activity(4);
+
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of messages
@@ -102,13 +107,16 @@ int main() {
            }
 
            printf("\033[0;33m"); // YELLOW
-           printf("==================================================================================\n");
+           printf("==================================================================================\n\n");
            printf("\033[0m"); // DEFAULT
 
            fclose(read_call);
          }
 
          else if (strcasecmp(first, "-activitylog") == 0 || strcasecmp(first, "-a") == 0) {
+
+           // erases -a/-activitylog
+           printf("\033[A\r       \n");
 
            // open activity.log for reading
            FILE *read_call;
@@ -118,10 +126,11 @@ int main() {
              exit(1);
            }
 
-           // erases -a/-activitylog
            printf("\033[0;36m"); // CYAN
-           printf("\033[A\r==================================================================================\n");
+           printf("\033[A\r\n==================================================================================\n");
            printf("\033[0m"); // DEFAULT
+
+           add_activity(5);
 
            // heading
            // includes size of chatlog and uses that number to calculate the total number of entries
@@ -148,20 +157,21 @@ int main() {
              printf("[ %s ] ", foo);
 
              // [ USERID ]
-             sprintf(temp, "user%d", log.userid);
-             printf("[ %s ] ", temp);
+             // sprintf(temp, "user%d", log.userid);
+             // printf("[ %s ] ", temp);
 
              // [ ACTIVITY ]
-             if      (log.activity == 1) printf("[ connected ]");
-             else if (log.activity == 2) printf("[ disconnected ]");
-             else if (log.activity == 3) printf("[ sent a message ]");
-             else if (log.activity == 4) printf("[ viewed the chatlog ]");
-             else if (log.activity == 5) printf("[ viewed the activitylog ]");
+             if      (log.activity == 1) printf("[ user connected ]");
+             else if (log.activity == 2) printf("[ user disconnected ]");
+             else if (log.activity == 3) printf("[ user sent a message ]");
+             else if (log.activity == 4) printf("[ user viewed the chatlog ]");
+             else if (log.activity == 5) printf("[ user viewed the activitylog ]");
+             else if (log.activity == 6) printf("[ server started ]");
              printf("\n");
            }
 
            printf("\033[0;36m"); // CYAN
-           printf("==================================================================================\n");
+           printf("==================================================================================\n\n");
            printf("\033[0m"); // DEFAULT
 
            fclose(read_call);
@@ -201,4 +211,66 @@ unsigned long file_size(char *file) {
   struct stat sb;
   stat(file, &sb);
   return sb.st_size;
+}
+
+// void add_activity(int id, int type) {
+void add_activity(int type) {
+  FILE *open_call_activitylog;
+  open_call_activitylog = fopen(ACTIVITYLOG, "a");
+  if (open_call_activitylog == NULL) {
+    fprintf(stderr, "\nError opening %s\n\n", ACTIVITYLOG);
+    exit(1);
+  }
+
+  // file size before writing
+  int activitylog_size_before = file_size(ACTIVITYLOG);
+
+  // struct
+  struct activitylog connect;
+
+  // userid
+  // connect.userid = id;
+
+  // char temp[BUFFER_SIZE];
+  // sprintf(temp, "user%d", id); // temp = user1, user2, etc.
+  // printf("[ %s ] ", temp);
+
+  // activity
+  /*
+       1 - CONNECT
+       2 - DISCONNECT
+       3 - SENT A MESSAGE
+       4 - VIEWED THE CHATLOG
+       5 - VIEWED THE ACTIVITYLOG
+       6 - SERVER STARTED
+  */
+  connect.activity = type;
+  // if      (connect.activity == 1) printf("[ user connected ]");
+  // else if (connect.activity == 2) printf("[ user disconnected ]");
+  // else if (connect.activity == 3) printf("[ user sent a message ]");
+  // else if (connect.activity == 4) printf("[ user viewed the chatlog ]");
+  // else if (connect.activity == 5) printf("[ user viewed the activitylog ]");
+
+  // time
+  time_t now;
+  struct tm ts;
+  time(&now);
+  ts = *localtime(&now);
+  connect.time = ts;
+
+  // char *foo = asctime(&connect.time);
+  // foo[strlen(foo) - 1] = 0;
+  //
+  // printf("\n          ");
+  // printf("[ %s ] ", foo);
+
+  // write to activity
+  fwrite(&connect, sizeof(connect), 1, open_call_activitylog);
+
+  // close
+  fclose(open_call_activitylog);
+
+  // printf("\n          ");
+  // printf("[ %lu bytes written to %s ] ", file_size(ACTIVITYLOG) - activitylog_size_before, ACTIVITYLOG);
+  // printf("[ size of %s: %lu bytes ]\n", ACTIVITYLOG, file_size(ACTIVITYLOG));
 }

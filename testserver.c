@@ -14,6 +14,8 @@ int main() {
   printf("\t - ctrl+c to disconnect and let others know + mark it in chatlog history\n");
   printf("\t - ctrl+/ to disconnect you without letting other users know\n");
 
+  add_activity(6);
+
   int fd, listen_socket, maxfd, client;
   //this is the fd_set that will be modified by select
   fd_set read_fds;
@@ -66,8 +68,7 @@ int main() {
 
           // ACTIVITY LOG ============================================================================================================
 
-          int id = client - 3;
-          add_activity(id, 1);
+          add_activity(1);
 
           // FILE *open_call;
           // open_call = fopen(ACTIVITYLOG, "a");
@@ -201,7 +202,7 @@ int main() {
              // ACTIVITY LOG ============================================================================================================
 
 
-             add_activity(id, 3);
+             add_activity(3);
 
              // FILE *open_call_activitylog;
              // open_call_activitylog = fopen(ACTIVITYLOG, "a");
@@ -304,7 +305,8 @@ unsigned long file_size(char *file) {
   return sb.st_size;
 }
 
-void add_activity(int id, int type) {
+// void add_activity(int id, int type) {
+void add_activity(int type) {
   FILE *open_call_activitylog;
   open_call_activitylog = fopen(ACTIVITYLOG, "a");
   if (open_call_activitylog == NULL) {
@@ -319,11 +321,11 @@ void add_activity(int id, int type) {
   struct activitylog connect;
 
   // userid
-  connect.userid = id;
+  // connect.userid = id;
 
-  char temp[BUFFER_SIZE];
-  sprintf(temp, "user%d", id); // temp = user1, user2, etc.
-  printf("[ %s ] ", temp);
+  // char temp[BUFFER_SIZE];
+  // sprintf(temp, "user%d", id); // temp = user1, user2, etc.
+  // printf("[ %s ] ", temp);
 
   // activity
   /*
@@ -334,11 +336,12 @@ void add_activity(int id, int type) {
        5 - VIEWED THE ACTIVITYLOG
   */
   connect.activity = type;
-  if      (connect.activity == 1) printf("[ connected ]");
-  else if (connect.activity == 2) printf("[ disconnected ]");
-  else if (connect.activity == 3) printf("[ sent a message ]");
-  else if (connect.activity == 4) printf("[ viewed the chatlog ]");
-  else if (connect.activity == 5) printf("[ viewed the activitylog ]");
+  if      (connect.activity == 1) printf("[ user connected ]");
+  else if (connect.activity == 2) printf("[ user disconnected ]");
+  else if (connect.activity == 3) printf("[ user sent a message ]");
+  else if (connect.activity == 4) printf("[ user viewed the chatlog ]");
+  else if (connect.activity == 5) printf("[ user viewed the activitylog ]");
+  else if (connect.activity == 6) printf("[ server started ]");
 
   // time
   time_t now;
