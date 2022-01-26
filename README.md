@@ -16,6 +16,8 @@ On the client-end...
 
 Instructions are shown on the teminal in server and client as well (if an unrecognized flag or no flag is used in the client, a 'help' guide will pop up). <br>
 <br>
+Also note: the activity log will continue tracking activity even after server and clients disconnect and reconnect again to log different sessions. It will only clear everytime you run make clean. 
+<br>
 
 ## Description of Technical Design:<br>NOTE: Sections omitted from the original proposal are marked with "(OMITTED)." All new additions are marked with (NEW).
 * **Sockets (Grace)**
