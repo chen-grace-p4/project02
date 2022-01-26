@@ -7,7 +7,16 @@
 ## Broad Description of Project
 A terminal-based messaging server loosely inspired by Discord. A client (the user) connects to a server, where they can send text messages to other clients (users) that are also connected to the server. A CHATLOG records all of these messages, even if all users disconnect and if the server closes. An ACTIVITYLOG records all "activities" performed in the chat server (a list of what activities are recorded can be found in the Description of Technical Design).
 
-## Description of User Interface (How to use our project):
+## Instructions on how to use our project:
+1. Build the project using `make`
+2. Open at minimum three terminal windows, one for the server and at minimum two for the clients.
+3. To start the server, run `./client`.
+4. To connect to the server as a user, run `./client`.
+  * \t You can do this multiple times. We have tested our code with up to 9 simultaneous users connected to the server.
+5. 
+
+
+===<br>
 First, start up the server after running make by running ./server. <br> <br>
 On other terminal windows, run ./client on each window to connect multiple clients to the server. It is best to connect clients all at once since previously sent messages will not be sent to new clients (but can be viewed in the activitylog, see below). <br> <br>
 On the client-end...
@@ -20,6 +29,7 @@ Instructions are shown on the teminal in server and client as well (if an unreco
 <br>
 Also note: the activity log will continue tracking activity even after server and clients disconnect and reconnect again to log different sessions. It will only clear everytime you run make clean. 
 <br>
+===<br>
 
 
 ## Description of Technical Design:
