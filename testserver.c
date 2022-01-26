@@ -1,8 +1,20 @@
 
 #include "networking.h"
 
-int main() {
+static void signal_catcher(int signal) {
+   if (signal == SIGINT) {
+      //apending message to file noting the program exited...
+      printf("\nDisconnecting...\n");
+      add_activity(7);
 
+      //exit with "0" as the status means program successfully terminated
+      //without error
+      exit(0);
+   }
+}
+
+int main() {
+  signal(SIGINT, signal_catcher);
   printf("INSTRUCTIONS FOR CLIENTS:\n");
   printf("\t - all clients should be connected at once in the beginning to see all messages.\n");
   printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
@@ -342,6 +354,7 @@ void add_activity(int type) {
   else if (connect.activity == 4) printf("[ user viewed the chatlog ]");
   else if (connect.activity == 5) printf("[ user viewed the activitylog ]");
   else if (connect.activity == 6) printf("[ server started ]");
+  else if (connect.activity == 7) printf("[ server closed ]");
 
   // time
   time_t now;

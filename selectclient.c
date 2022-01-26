@@ -1,7 +1,20 @@
 
 #include "networking.h"
 
+static void signal_catcher(int signal) {
+   if (signal == SIGINT) {
+      //apending message to file noting the program exited...
+      printf("\nDisconnecting...\n");
+      add_activity(2);
+
+      //exit with "0" as the status means program successfully terminated
+      //without error
+      exit(0);
+   }
+}
+
 int main() {
+   signal(SIGINT, signal_catcher);
    struct timeval tv;
    fd_set read_fds;
    fd_set full_fds;
@@ -167,6 +180,7 @@ int main() {
              else if (log.activity == 4) printf("[ user viewed the chatlog ]");
              else if (log.activity == 5) printf("[ user viewed the activitylog ]");
              else if (log.activity == 6) printf("[ server started ]");
+             else if (log.activity == 7) printf("[ server closed ]");
              printf("\n");
            }
 

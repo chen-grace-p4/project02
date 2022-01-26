@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <ifaddrs.h>
 #include <time.h>
+#include <signal.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>
