@@ -1,4 +1,5 @@
-# Systems Final Project - "Disaccord"
+# Systems Final Project
+### Disaccord
 **Members**: Grace Chen, Kyle Li <br>
 **Period**: 4 <br>
 **Project Statement**: A very basic messaging server somewhat inspired by Discord or Slack. <br>
@@ -14,12 +15,15 @@ On the client-end...
 * use flag -c or -chatlog to view a log of all messages sent, who sent them, and the time they were sent. <br>
 * use flag -a or -activitylog to view a log of activities (ex. client disconnected and more) and the time they were performed. <br>
 
-Instructions are shown on the teminal in server and client as well (if an unrecognized flag or no flag is used in the client, a 'help' guide will pop up). <br>
+Instructions are shown on the teminal in server and client as well (if an unrecognized flag or no flag is used in the client, a 'help' guide will pop up).
+<br>
 <br>
 Also note: the activity log will continue tracking activity even after server and clients disconnect and reconnect again to log different sessions. It will only clear everytime you run make clean. 
 <br>
 
-## Description of Technical Design:<br>NOTE: Sections omitted from the original proposal are marked with "(OMITTED)." All new additions are marked with (NEW).
+
+## Description of Technical Design:
+### NOTE: Sections omitted from the original proposal are marked with "(OMITTED)." All new additions are marked with (NEW).
 * **Sockets (Grace)**
   * connecting users(clients) to a server where they send messages to each other
   * (OMITTED)"subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
@@ -29,8 +33,8 @@ Also note: the activity log will continue tracking activity even after server an
 
 * **Working with files (Kyle)**
   * (OMITTED) send files or images over the server so that other clients can access/see them
-  * (NEW) CHATLOG (chat.log): Saves all messages sent by the users into a file. All users/clients can access the CHATLOG using -c or -chatlog.
-  * (NEW) ACTIVITYLOG (activity.log): Saves all "activities" performed in the chat server. UserIDs are NOT recorded in the file, thus making this an "anonymous" ACTIVITYLOG. All users/clients can access the ACTIVITYLOG using -a or -activitylog.
+  * (NEW) CHATLOG: Saves all messages sent by the users into a file (chat.log) using the chatlog struct. All users/clients can access the CHATLOG using -c or -chatlog.
+  * (NEW) ACTIVITYLOG: Saves all "activities" performed in the chat server into a file (activity.log) using the activitylog struct. UserIDs are NOT recorded in the file, thus making this an "anonymous" ACTIVITYLOG. All users/clients can access the ACTIVITYLOG using -a or -activitylog.
     * SEVEN different "activities" are recorded in the ACTIVITYLOG:
       * 1: User connected
       * 2: User disconnected
@@ -41,10 +45,13 @@ Also note: the activity log will continue tracking activity even after server an
       * 7: Server closed
 
 * **Finding information about files (Kyle)**
+  * (NEW) Finding out the size of chat.log and activity.log. 
+    * This information is used to calculate the number of messages saved in the CHATLOG and the number of entries saved in the ACTIVITYLOG. Since the only things being written to the files are structs of a constant size, dividing the size of the file by the size of the struct will result in the number of messages/entries. There are ways around using the file size to calculate the number of messages/entries, all of which are far less efficient.
+  * (NEW) The size of the file and the number of messages/entries in the CHATLOG/ACTIVITYLOG is displayed in the first line of the CHATLOG/ACTIVITYLOG.
   * (OMITTED) display information about files such as size, file type, and a preview of files
   * (OMITTED) having a preview of a file will require the use of READ
-  * (OMITTED) at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server 
-
+  * (OMITTED) at some point there could be a way to change a file using WRITE by a client and send the changed file back over the server
+  
 * **Signals (Grace)**
   * (NEW) to log if a user/server disconnect
     * ctrl+c in the server or client disconnects them and also logs their disconnect in the activity log
