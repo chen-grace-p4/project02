@@ -49,7 +49,7 @@
 <br>
 12:59 PM **Kyle**: sent a message is now recorded in the activitylog
 <br>
-1:18 PM **Kyle**: moved writing to activitylog into a helper function, 
+1:18 PM **Kyle**: moved writing to activitylog into a helper function
 <br>
 
 # 1/26/2022
