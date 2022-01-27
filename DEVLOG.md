@@ -31,21 +31,44 @@
 # 1/24/2022
 1:28 AM **Grace**: server displays client-side messages as well for now, updated README to match current project, added instructions in server and client
 <br><br>
-5:01 PM **Kyle**:
+4:03 PM **Kyle**: server now writes to chatlog (old write)
+<br>
+5:01 PM **Kyle**: started implementation of fread/fwrite, server can now print updates
 <br>
 
 # 1/25/2022
-6:56 AM **Kyle**:
-<br><br>
-9:48 AM **Kyle**:
-<br><br>
-1:18 PM **Kyle**:
+4:45 AM **Kyle**: chatlog in complete working order
+<br>
+6:56 AM **Kyle**: new formatting for printing, started activitylog
+<br>
+9:47 AM **Kyle**: added "connected" to activitylog
+<br>
+10:48 AM **Kyle**: fixed userid
+<br>
+10:53 AM **Kyle**: testing colored print statements
+<br>
+12:59 PM **Kyle**: sent a message is now recorded in the activitylog
+<br>
+1:18 PM **Kyle**: moved writing to activitylog into a helper function, 
 <br>
 
 # 1/26/2022
+10:24 AM **Kyle**: added view chatlog/activitylog to activitylog, removed userid from activitylog
+<br>
 10:49 AM **Grace**: completed signals for disconnecting
-<br><br>
+<br>
 1:40 PM **Grace**: updated README to match project now
-<br><br>
+<br>
 2:02 PM **Kyle**: updated README to match project now
 <br>
+7:46 PM **Grace**: added devlog
+<br>
+7:57 PM **Grace**: fixed format of user/me display in client, modified format of how messages are shown, fixed instructions
+<br>
+
+# 1/27/2022
+3:01 AM **Kyle**: fixed instructions, fixed formatting on printed statements, added new coloring
+<br>
+3:48 AM **Kyle**: updated README
+<br>
+5:35 AM **Kyle**: updated devlog
