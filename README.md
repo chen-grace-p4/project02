@@ -12,7 +12,8 @@ A terminal-based messaging server loosely inspired by Discord. A client (the use
 2. Open at minimum three terminal windows, one for the server and at minimum two for the clients.
 3. To start the server, run `./client`.
 4. To connect to the server as a user, run `./client`.
-  * \t You can do this multiple times. We have tested our code with up to 9 simultaneous users connected to the server.
+   * You can do this multiple times. We have tested our code with up to 9 simultaneous users connected to the server.
+   * We have only tested connections on the localhost (all clients are on the same machine)
 5. 
 
 
