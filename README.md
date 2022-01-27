@@ -8,44 +8,43 @@
 A terminal-based messaging server loosely inspired by Discord. A client (the user) connects to a server, where they can send text messages to other clients (users) that are also connected to the server. A CHATLOG records all of these messages, even if all users disconnect and if the server closes. An ACTIVITYLOG records all "activities" performed in the chat server (a list of what activities are recorded can be found in the Description of Technical Design).
 
 ## Instructions on how to use our project:
-1. Build the project using `make`
+1. Build the project using `make`.
 2. Open at minimum three terminal windows, one for the server and at minimum two for the clients.
-3. To start the server, run `./client`.
-4. To connect to the server as a user, run `./client`.
-   * You can do this multiple times. We have tested our code with up to 9 simultaneous users connected to the server.
-   * We have only tested connections on the localhost (all clients are on the same machine)
-5. 
+   * You can use only one window for the client but you'd just be talking to yourself!
+4. To start the server, run `./server`.
+5. To connect to the server as a user, run `./client`.
+   * You can do this multiple times.
+   * Notes about our testing:
+     * We have tested our code with up to 9 simultaneous users connected to the server.
+     * We have only tested connections on the localhost (all clients are on the same machine).
+6. You may use the following commands in `client`:
+    * `-m YOUR_MESSAGE_HERE` or `-message YOUR_MESSAGE_HERE` to send a message.
+      * Note about our testing:
+        * We have NOT tested the character limit of the messages. Most of the messages we used to test our code were under 50 characters, though we assume it can support up to ~1000 characters as that is the size of the string storing the message in the `chatlog` struct.
+    * `-c` or `-chatlog` to view the CHATLOG.
+      * The CHATLOG stores all messages sent, including who sent the message and the time the message was sent.
+    * `-a` or `-activitylog` to view the ACTIVITYLOG.
+      * The ACTIVITYLOG stores seven different activities and the time the activity was performed. See more details under "Working with Files."
+    * If you incorrectly enter one these commands or simply type something random and click `enter`/`return`, you will be alerted to enter a valid command.
+7. If you have better things to do, you may disconnect from the server with `ctrl+c`!
+8. If you choose to relieve the server of its duties, you may end the server with `ctrl+c`!
 
-
-===<br>
-First, start up the server after running make by running ./server. <br> <br>
-On other terminal windows, run ./client on each window to connect multiple clients to the server. It is best to connect clients all at once since previously sent messages will not be sent to new clients (but can be viewed in the activitylog, see below). <br> <br>
-On the client-end...
-* use the flag -m or -message (ex. "-m hi hows your day" to send hi hows your day) to send a regular text message. <br>
-* use flag -c or -chatlog to view a log of all messages sent, who sent them, and the time they were sent. <br>
-* use flag -a or -activitylog to view a log of activities (ex. client disconnected and more) and the time they were performed. <br>
-
-Instructions are shown on the teminal in server and client as well (if an unrecognized flag or no flag is used in the client, a 'help' guide will pop up).
-<br>
-<br>
-Also note: the activity log will continue tracking activity even after server and clients disconnect and reconnect again to log different sessions. It will only clear everytime you run make clean. 
-<br>
-===<br>
+Have fun!
 
 
 ## Description of Technical Design:
 ### NOTE: Sections omitted from the original proposal are marked with "(OMITTED)." All new additions are marked with (NEW).
 * **Sockets (Grace)**
-  * connecting users(clients) to a server where they send messages to each other
-  * (OMITTED)"subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
+  * connecting users (clients) to a server where they send messages to each other
+  * (OMITTED) "subserver" or channels also could be an entirely new server itself and clients will simply connect to multiple servers at once
   * (NEW) server uses select to navigate through multiple clients and clients use select to navigate between STDIN and new messages from the server (other clients)
        * (NEW) <sys/ioctl.h> is included so ioctl is used to detect whether or not the socket has something new to read (a new message)
   * (NEW) clients are identified by usernames based on their file descriptor number
 
-* **Working with files (Kyle)**
+* **Working with Files (Kyle)**
   * (OMITTED) send files or images over the server so that other clients can access/see them
-  * (NEW) CHATLOG: Saves all messages sent by the users into a file (chat.log) using the chatlog struct. All users/clients can access the CHATLOG using -c or -chatlog.
-  * (NEW) ACTIVITYLOG: Saves all "activities" performed in the chat server into a file (activity.log) using the activitylog struct. UserIDs are NOT recorded in the file, thus making this an "anonymous" ACTIVITYLOG. All users/clients can access the ACTIVITYLOG using -a or -activitylog.
+  * (NEW) CHATLOG: Saves all messages sent by the users into a file (chat.log) using the `chatlog` struct. All users/clients can access the CHATLOG using -c or -chatlog.
+  * (NEW) ACTIVITYLOG: Saves all "activities" performed in the chat server into a file (activity.log) using the `activitylog` struct. UserIDs are NOT recorded in the file, thus making this an "anonymous" ACTIVITYLOG. All users/clients can access the ACTIVITYLOG using -a or -activitylog.
     * SEVEN different "activities" are recorded in the ACTIVITYLOG:
       * 1: User connected
       * 2: User disconnected
@@ -55,8 +54,8 @@ Also note: the activity log will continue tracking activity even after server an
       * 6: Server started
       * 7: Server closed
 
-* **Finding information about files (Kyle)**
-  * (NEW) Finding out the size of chat.log and activity.log. 
+* **Finding Information About Files (Kyle)**
+  * (NEW) Finding out the size of `chat.log` and `activity.log`. 
     * This information is used to calculate the number of messages saved in the CHATLOG and the number of entries saved in the ACTIVITYLOG. Since the only things being written to the files are structs of a constant size, dividing the size of the file by the size of the struct will result in the number of messages/entries. There are ways around using the file size to calculate the number of messages/entries, all of which are far less efficient.
   * (NEW) The size of the file and the number of messages/entries in the CHATLOG/ACTIVITYLOG is displayed in the first line of the CHATLOG/ACTIVITYLOG.
   * (OMITTED) display information about files such as size, file type, and a preview of files
@@ -70,15 +69,24 @@ Also note: the activity log will continue tracking activity even after server an
 
 * (OMITTED) Layouting the GUI (Kyle)
 
+## Regarding our testing (reiterated from the Instructions):
+* We have tested our code with up to 9 simultaneous users connected to the server.
+* We have only tested connections on the localhost (all clients are on the same machine).
+* We have NOT tested the character limit of the messages. Most of the messages we used to test our code were under 50 characters, though we assume it can support up to ~1000 characters as that is the size of the string storing the message in the `chatlog` struct.
+
+
 ## Some known bugs or weird things:
 * When a client recieves a message from another client while they're still typing a message, it will look a little wonky on the terminal but what they have already typed before receiving a new message is included in the next message they send.
-* If the server closes while users are still connected, the users are NOT automatically disconnected. In our testing, two calls of -m/-message by the user leads to the client breaking. This is different from the user manually disconnecting with ctrl+c. Therefore, this "breaking" is NOT recorded as the user disconnecting in the ACTIVITYLOG.
+* If the server closes while users are still connected, the users are NOT automatically disconnected. In our testing, two calls of `-m`/`-message` by the user leads to the client breaking. This is different from the user manually disconnecting with `ctrl+c`. Therefore, this "breaking" is NOT recorded as the user disconnecting in the ACTIVITYLOG.
+* The colors for the printed text appear different depending on the terminal being used. We apologize for any readability issues!
 
-## Features we didn't implement that were in our proposal (reiterated from above):
+
+## Features we didn't implement that were in our proposal (reiterated from Description of Technical Design):
 * subservers or channels
 * the gtk gui 
 * italicizing and bolding text
 * sending files 
+
 
 ## Timeline:
 * 1/13 - Have a basic terminal based messaging server made. Clients will be able to connect and messages they send will be displayed both on their end and on the server.
