@@ -212,7 +212,8 @@ int main() {
          if (count != 0) {
             read(server, buffer, sizeof(buffer));
        		//printf("||received||: -%s-\n", buffer);
-            printf("%s'\n", buffer);
+            //printf("%s'\n", buffer);
+            printf("%s\n", buffer);
          }
       }
    }

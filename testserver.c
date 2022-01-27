@@ -155,7 +155,7 @@ int main() {
              int id = fd-3;
              char temp[BUFFER_SIZE];
              //sprintf(temp, "||user%d||: ' ", id);
-             sprintf(temp, "[user%d]: ' ", id);
+             sprintf(temp, "[user%d]: ", id);
 
              // CHAT LOG ================================================================================================================
 
