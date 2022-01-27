@@ -11,13 +11,13 @@ A terminal-based messaging server loosely inspired by Discord. A client (the use
 1. Build the project using `make`.
 2. Open at minimum three terminal windows, one for the server and at minimum two for the clients.
    * You can use only one window for the client but you'd just be talking to yourself!
-4. To start the server, run `./server`.
-5. To connect to the server as a user, run `./client`.
+3. To start the server, run `./server`.
+4. To connect to the server as a user, run `./client`.
    * You can do this multiple times.
    * Notes about our testing:
      * We have tested our code with up to 9 simultaneous users connected to the server.
      * We have only tested connections on the localhost (all clients are on the same machine).
-6. You may use the following commands in `client`:
+5. You may use the following commands in `client`:
     * `-m YOUR_MESSAGE_HERE` or `-message YOUR_MESSAGE_HERE` to send a message.
       * Note about our testing:
         * We have NOT tested the character limit of the messages. Most of the messages we used to test our code were under 50 characters, though we assume it can support up to ~1000 characters as that is the size of the string storing the message in the `chatlog` struct.
@@ -26,8 +26,11 @@ A terminal-based messaging server loosely inspired by Discord. A client (the use
     * `-a` or `-activitylog` to view the ACTIVITYLOG.
       * The ACTIVITYLOG stores seven different activities and the time the activity was performed. See more details under "Working with Files."
     * If you incorrectly enter one these commands or simply type something random and click `enter`/`return`, you will be alerted to enter a valid command.
-7. If you have better things to do, you may disconnect from the server with `ctrl+c`!
-8. If you choose to relieve the server of its duties, you may end the server with `ctrl+c`!
+6. If you have better things to do, you may disconnect from the server with `ctrl+c`!
+    * You can reconnect to the server as long the server is still running. Data stored in CHATLOG/ACTIVITYLOG will NOT be deleted by disconnecting.
+7. If you choose to relieve the server of its duties, you may end the server with `ctrl+c`!
+    * You can restart the server again with a call of `./server`. Data stored in CHATLOG/ACTIVITYLOG will NOT be deleted by ending the server.
+8. If you would like to wipe the CHATLOG/ACTIVITYLOG, run `make clean`. Then run `make` to rebuild the project and start fresh.
 
 Have fun!
 
@@ -42,10 +45,13 @@ Have fun!
   * (NEW) clients are identified by usernames based on their file descriptor number
 
 * **Working with Files (Kyle)**
-  * (OMITTED) send files or images over the server so that other clients can access/see them
   * (NEW) CHATLOG: Saves all messages sent by the users into a file (chat.log) using the `chatlog` struct. All users/clients can access the CHATLOG using -c or -chatlog.
-  * (NEW) ACTIVITYLOG: Saves all "activities" performed in the chat server into a file (activity.log) using the `activitylog` struct. UserIDs are NOT recorded in the file, thus making this an "anonymous" ACTIVITYLOG. All users/clients can access the ACTIVITYLOG using -a or -activitylog.
-    * SEVEN different "activities" are recorded in the ACTIVITYLOG:
+    * CHATLOG records:
+      * the message
+      * the user who sent the message
+      * the time when the message was sent
+  * (NEW) ACTIVITYLOG: Saves all "activities" performed in the chat server into a file (activity.log) using the `activitylog` struct. All users/clients can access the ACTIVITYLOG using -a or -activitylog.
+    * SEVEN different activities are recorded in the ACTIVITYLOG:
       * 1: User connected
       * 2: User disconnected
       * 3: User sent a message
@@ -53,6 +59,8 @@ Have fun!
       * 5: User viewed the ACTIVITYLOG
       * 6: Server started
       * 7: Server closed
+  * (NEW) UserIDs are NOT recorded in the ACTIVITYLOG due to some limitations regarding communication between the server and the client. Therefore, the ACTIVITYLOG is "anonymous." Only the activity and when the activity was performed are recorded.
+  * (OMITTED) send files or images over the server so that other clients can access/see them
 
 * **Finding Information About Files (Kyle)**
   * (NEW) Finding out the size of `chat.log` and `activity.log`. 
