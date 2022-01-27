@@ -4,7 +4,16 @@
 static void signal_catcher(int signal) {
    if (signal == SIGINT) {
       //apending message to file noting the program exited...
-      printf("\nServer closing...\n");
+
+      // printf("\n");
+
+      printf("\033[0;31m"); // RED
+      printf("\033[A\r\n==============================================================================================\n");
+      printf("[ SERVER CLOSING... ]\n");
+      printf("\033[A\r\n==============================================================================================\n");
+      printf("\033[0m"); // DEFAULT
+      printf("\n");
+
       add_activity(7);
 
       //exit with "0" as the status means program successfully terminated
@@ -15,15 +24,32 @@ static void signal_catcher(int signal) {
 
 int main() {
   signal(SIGINT, signal_catcher);
-  printf("INSTRUCTIONS FOR CLIENTS:\n");
-  printf("\t - ideally, all clients should be connected at the same time to see all messages.\n");
-  printf("\t  clients that connect later on can only view past messages in the chat log.\n");
+
+  printf("\033[0;33m"); // YELLOW
+  printf("\033[A\r\n==============================================================================================\n");
+  // printf("\033[0m"); // DEFAULT
+
+  printf("[ CLIENT COMMANDS ]\n");
+
+  printf("\t[ -m YOUR_MESSAGE_HERE ] or [ -message YOUR_MESSAGE_HERE ] to send a message.\n");
+  printf("\t[ -c ] or [ -chatlog ] to view the CHATLOG.\n");
+  printf("\t[ -a ] or [ -activitylog ] to view the ACTIVITYLOG.\n");
+  printf("\t[ ctrl+c ] to disconnect from the server.\n");
+
+  // printf("\033[0;33m"); // YELLOW
+  printf("\033[A\r\n==============================================================================================\n");
+  printf("\033[0m"); // DEFAULT
   printf("\n");
-  printf("Client commands...\n");
-  printf("\t - '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
-  printf("\t - '-c' OR '-chatlog' to view chatlog.\n");
-  printf("\t - '-a' OR '-activitylog' to view activitylog.\n");
-  printf("\t - ctrl+c to disconnect from server.\n");
+
+  // printf("INSTRUCTIONS FOR CLIENTS:\n");
+  // printf("\t - ideally, all clients should be connected at the same time to see all messages.\n");
+  // printf("\t  clients that connect later on can only view past messages in the chat log.\n");
+  // printf("\n");
+  // printf("Client commands...\n");
+  // printf("\t - '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
+  // printf("\t - '-c' OR '-chatlog' to view chatlog.\n");
+  // printf("\t - '-a' OR '-activitylog' to view activitylog.\n");
+  // printf("\t - ctrl+c to disconnect from server.\n");
 
   add_activity(6);
 
@@ -37,7 +63,7 @@ int main() {
   //make sure clients is totally empty
   FD_ZERO( &clients );
   listen_socket = server_setup();
-  printf("listen socket: %d\n", listen_socket);
+  // printf("listen socket: %d\n", listen_socket);
 
   //add the listening socket to the master set
   FD_SET(listen_socket, &clients);
@@ -60,7 +86,7 @@ int main() {
     */
     int i = select(maxfd + 1, &read_fds, NULL, NULL, NULL);
     error_check_sock(i, "select", listen_socket);
-    printf("select ready: %d\n", i);
+    // printf("select ready: %d\n", i);
 
     //all we know is a file descriptor is ready, we don't know which one
     //loop through read_fds for any available socket
@@ -151,6 +177,8 @@ int main() {
           //connection, otherwise process it.
           if (read(fd, buffer, sizeof(buffer)) ) {
 
+            // printf("\n");
+
              int id = fd-3;
              char temp[BUFFER_SIZE];
              //sprintf(temp, "||user%d||: ' ", id);
@@ -205,7 +233,7 @@ int main() {
              // printing out updates about chat.log
              printf("\n          ");
              printf("[ %lu bytes written to %s ] ", file_size(CHATLOG) - chatlog_size_before, CHATLOG);
-             printf("[ size of %s: %lu bytes ]\n", CHATLOG, file_size(CHATLOG));
+             printf("[ size of %s: %lu bytes ]\n\n", CHATLOG, file_size(CHATLOG));
 
              // CHAT LOG ================================================================================================================
 
@@ -319,6 +347,9 @@ unsigned long file_size(char *file) {
 
 // void add_activity(int id, int type) {
 void add_activity(int type) {
+
+  // printf("\n");
+
   FILE *open_call_activitylog;
   open_call_activitylog = fopen(ACTIVITYLOG, "a");
   if (open_call_activitylog == NULL) {
@@ -367,7 +398,7 @@ void add_activity(int type) {
   foo[strlen(foo) - 1] = 0;
 
   printf("\n          ");
-  printf("[ %s ] ", foo);
+  printf("[ %s ]", foo);
 
   // write to activity
   fwrite(&connect, sizeof(connect), 1, open_call_activitylog);
@@ -377,5 +408,5 @@ void add_activity(int type) {
 
   printf("\n          ");
   printf("[ %lu bytes written to %s ] ", file_size(ACTIVITYLOG) - activitylog_size_before, ACTIVITYLOG);
-  printf("[ size of %s: %lu bytes ]\n", ACTIVITYLOG, file_size(ACTIVITYLOG));
+  printf("[ size of %s: %lu bytes ]\n\n", ACTIVITYLOG, file_size(ACTIVITYLOG));
 }

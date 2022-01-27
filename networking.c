@@ -37,7 +37,7 @@ int server_setup() {
   //create the socket
   sd = socket( results->ai_family, results->ai_socktype, results->ai_protocol );
   error_check( sd, "server socket" );
-  printf("[server] socket created\n");
+  // printf("[server] socket created\n");
   //this code should get around the address in use error
   int yes = 1;
   if ( setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1 ) {
@@ -48,12 +48,12 @@ int server_setup() {
   //bind the socket to address and port
   i = bind( sd, results->ai_addr, results->ai_addrlen );
   error_check( i, "server bind" );
-  printf("[server] socket bound\n");
+  // printf("[server] socket bound\n");
 
   //set socket to listen state
   i = listen(sd, 10);
   error_check( i, "server listen" );
-  printf("[server] socket in listen state\n");
+  // printf("[server] socket in listen state\n");
 
 
   //free the structs used by getaddrinfo

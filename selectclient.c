@@ -4,7 +4,16 @@
 static void signal_catcher(int signal) {
    if (signal == SIGINT) {
       //apending message to file noting the program exited...
-      printf("\nDisconnecting...\n");
+
+      printf("\n");
+
+      printf("\033[0;31m"); // RED
+      printf("\033[A\r\n==============================================================================================\n");
+      printf("[ USER DISCONNECTED ]\n");
+      printf("\033[A\r\n==============================================================================================\n");
+      printf("\033[0m"); // DEFAULT
+
+
       add_activity(2);
 
       //exit with "0" as the status means program successfully terminated
@@ -60,9 +69,10 @@ int main() {
                strcat(temp2, " ");
                first = strtok(NULL," ");
             }
-            printf("\033[0;35m"); // CYAN
-            printf("\033[A\r[me]: %s\n", temp2);
+            printf("\033[0;35m"); // PURPLE
+            printf("\033[A\r[me]: %s", temp2);
             printf("\033[0m"); // DEFAULT
+            printf("\n");
             write(server, temp2, sizeof(temp2));
          }
 
@@ -80,7 +90,7 @@ int main() {
            }
 
            printf("\033[0;33m"); // YELLOW
-           printf("\033[A\r\n==================================================================================\n");
+           printf("\033[A\r\n==============================================================================================\n");
            printf("\033[0m"); // DEFAULT
 
            add_activity(4);
@@ -120,8 +130,10 @@ int main() {
            }
 
            printf("\033[0;33m"); // YELLOW
-           printf("==================================================================================\n\n");
+           printf("==============================================================================================\n");
            printf("\033[0m"); // DEFAULT
+
+           printf("\n");
 
            fclose(read_call);
          }
@@ -140,7 +152,7 @@ int main() {
            }
 
            printf("\033[0;36m"); // CYAN
-           printf("\033[A\r\n==================================================================================\n");
+           printf("\033[A\r\n==============================================================================================\n");
            printf("\033[0m"); // DEFAULT
 
            add_activity(5);
@@ -185,20 +197,41 @@ int main() {
            }
 
            printf("\033[0;36m"); // CYAN
-           printf("==================================================================================\n\n");
+           printf("==============================================================================================\n");
            printf("\033[0m"); // DEFAULT
+
+           printf("\n");
 
            fclose(read_call);
          }
 
          else {
-            printf("///ALERT///\n");
-            printf("Please enter valid command:\n");
-            printf("\t '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
-            printf("\t '-c' OR '-chatlog' to view chatlog.\n");
-            printf("\t '-a' OR '-activitylog' to view activitylog.\n");
-            printf("\t ctrl+c to disconnect from server.\n");
-            printf("///ALERT///\n");
+
+           printf("\033[0;33m"); // YELLOW
+           printf("\033[A\r\n==============================================================================================\n");
+           // printf("\033[0m"); // DEFAULT
+
+           printf("[ ALERT: Please enter a valid command. ]\n");
+           // printf("[ PLEASE ENTER A VALID COMMAND ]\n");
+
+           printf("\t[ -m YOUR_MESSAGE_HERE ] or [ -message YOUR_MESSAGE_HERE ] to send a message.\n");
+           printf("\t[ -c ] or [ -chatlog ] to view the CHATLOG.\n");
+           printf("\t[ -a ] or [ -activitylog ] to view the ACTIVITYLOG.\n");
+           printf("\t[ ctrl+c ] to disconnect from the server.\n");
+
+           // printf("\033[0;33m"); // YELLOW
+           printf("\033[A\r\n==============================================================================================\n");
+           printf("\033[0m"); // DEFAULT
+
+           printf("\n");
+
+            // printf("///ALERT///\n");
+            // printf("Please enter valid command:\n");
+            // printf("\t '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
+            // printf("\t '-c' OR '-chatlog' to view chatlog.\n");
+            // printf("\t '-a' OR '-activitylog' to view activitylog.\n");
+            // printf("\t ctrl+c to disconnect from server.\n");
+            // printf("///ALERT///\n");
          }
       }
       //nothing is entered on stdin
