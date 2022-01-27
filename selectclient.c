@@ -61,7 +61,7 @@ int main() {
                first = strtok(NULL," ");
             }
             printf("\033[0;35m"); // CYAN
-            printf("\033[A\rme: %s\n", temp2);
+            printf("\033[A\r[me]: %s\n", temp2);
             printf("\033[0m"); // DEFAULT
             write(server, temp2, sizeof(temp2));
          }

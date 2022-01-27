@@ -4,7 +4,7 @@
 static void signal_catcher(int signal) {
    if (signal == SIGINT) {
       //apending message to file noting the program exited...
-      printf("\nDisconnecting...\n");
+      printf("\nServer closing...\n");
       add_activity(7);
 
       //exit with "0" as the status means program successfully terminated
@@ -154,7 +154,8 @@ int main() {
 
              int id = fd-3;
              char temp[BUFFER_SIZE];
-             sprintf(temp, "||user%d||: ' ", id);
+             //sprintf(temp, "||user%d||: ' ", id);
+             sprintf(temp, "[user%d]: ' ", id);
 
              // CHAT LOG ================================================================================================================
 
