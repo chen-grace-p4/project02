@@ -197,8 +197,7 @@ int main() {
             printf("\t '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
             printf("\t '-c' OR '-chatlog' to view chatlog.\n");
             printf("\t '-a' OR '-activitylog' to view activitylog.\n");
-            printf("\t ctrl+c to disconnect and let others know and mark in chatlog.\n");
-            printf("\t ctrl+/ to disconnect without letting others know.\n");
+            printf("\t ctrl+c to disconnect from server.\n");
             printf("///ALERT///\n");
          }
       }

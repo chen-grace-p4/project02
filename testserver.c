@@ -16,15 +16,14 @@ static void signal_catcher(int signal) {
 int main() {
   signal(SIGINT, signal_catcher);
   printf("INSTRUCTIONS FOR CLIENTS:\n");
-  printf("\t - all clients should be connected at once in the beginning to see all messages.\n");
-  printf("\t  clients connected afterwards will not be able to see or recieve past messages.\n");
+  printf("\t - ideally, all clients should be connected at the same time to see all messages.\n");
+  printf("\t  clients that connect later on can only view past messages in the chat log.\n");
   printf("\n");
-  printf("\t - begin inputs with -m or -message to send a normal text message.\n");
-  printf("\t - send -h or -history to view chatlog history.\n");
-  printf("\n");
-  printf("in order to disconnect...\n");
-  printf("\t - ctrl+c to disconnect and let others know + mark it in chatlog history\n");
-  printf("\t - ctrl+/ to disconnect you without letting other users know\n");
+  printf("Client commands...\n");
+  printf("\t - '-m yourmessagehere' OR '-message yourmessagehere' to send a regular message.\n");
+  printf("\t - '-c' OR '-chatlog' to view chatlog.\n");
+  printf("\t - '-a' OR '-activitylog' to view activitylog.\n");
+  printf("\t - ctrl+c to disconnect from server.\n");
 
   add_activity(6);
 
